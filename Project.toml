@@ -1,0 +1,13 @@
+name = "Suiron"
+uuid = "4d49a1dd-e5d0-4271-9114-9bcba05437f0"
+authors = ["Cleve Lendon"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

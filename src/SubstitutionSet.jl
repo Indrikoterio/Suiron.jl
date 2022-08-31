@@ -128,7 +128,33 @@ function ground_terms(
     end
     return ground, has_unground
 
-end # ground_terms()
+end  # ground_terms()
+
+# cast_complex - If the given Unifiable term is a Complex term,
+# cast it as Complex and return it. If the given term is a Variable,
+# get the ground term. If the ground term is a Complex term, cast
+# it and return it. Otherwise fail.
+# Params: Unifiable term
+# Return: Complex term
+#         success/failure flag
+function cast_complex(ss::SubstitutionSet, term::Unifiable)::Tuple{SComplex, Bool}
+
+    tt = typeof(term)
+    if tt == SComplex
+        return term, true
+    end
+    if tt == LogicVar
+        term2, ok = get_ground_term(ss, term)
+        if ok
+            if typeof(term2) == SComplex
+                return term2, true
+            end
+        end
+    end
+    return SComplex(), false
+
+end   # cast_complex()
+
 
 # cast_linked_list - if the given unifiable term is a linked list,
 # return it. If it is a logic variable, get the ground term.

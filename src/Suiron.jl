@@ -42,6 +42,7 @@ include("./NewLine.jl")
 include("./Print.jl")
 include("./Exclude.jl")
 include("./Include.jl")
+include("./Functor.jl")
 
 function __init__()
     println("Suiron has loaded.")

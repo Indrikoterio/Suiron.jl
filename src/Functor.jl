@@ -50,7 +50,8 @@ end
 #         functor (out)
 # Return: Functor predicate
 function Functor(term::Unifiable, func::Unifiable)::Functor
-    return Functor([term, func])
+    args::Vector{Unifiable} = [term, func]
+    return Functor(args)
 end
 
 # Functor - A constructor.
@@ -60,7 +61,8 @@ end
 # Return: Functor predicate
 function Functor(term::Unifiable, func::Unifiable,
                  arity::Unifiable)::Functor
-    return Functor([term, func, arity])
+    args::Vector{Unifiable} = [term, func, arity]
+    return Functor(args)
 end
 
 mutable struct FunctorSolutionNode <: SolutionNode
@@ -98,89 +100,75 @@ function recreate_variables(f::Functor, vars::NewVars)::Expression
     return Functor(new_terms)
 end
 
-#xxxxxxxxxxxxxxxxxxxxxxxx
-# next_solution - calls include_terms() to produce a new linked list.
-# Params: include solution node
-# Return:
-#    updated substitution set
-#    success/failure flag
-function next_solution(sn::IncludeSolutionNode)::Tuple{SubstitutionSet, Bool}
+# next_solution - calls a function to evaluate the current goal.
+# Params: functor solution node
+# Return: updated substitution set
+#         success/failure flag
+function next_solution(sn::FunctorSolutionNode)::Tuple{SubstitutionSet, Bool}
     if sn.no_back_tracking || !sn.more_solutions
         return sn.parent_solution, false
     end
     sn.more_solutions = false  # Only one solution.
-    return include_terms(sn.goal.terms, sn.parent_solution)
+    return get_functor_arity(sn.goal.terms, sn.parent_solution)
 end
 
-
-# include_filter - determines whether the given term passes the filter.
-#
-# Params: term to test (Unifiable)
-#         filter term  (Unifiable)
-#         substitution set
-# Return: true == pass, false == discard
-function include_filter(term::Unifiable,
-                        filter::Unifiable, ss::SubstitutionSet)::Bool
-    _, ok = unify(filter, term, ss)
-    if ok
-        return true
-    end
-    return false
-end
-
-# include_terms - scans the given input list, and tries to unify
-# each item with the filter goal. If unification succeeds, the
-# item is included from the output list. The output list will be
-# bound to the third argument.
+# get_functor_arity - determines the functor and arity of the first
+# argument. Binds the functor to the second argument, and the arity
+# to the third argument, if there is one. Returns the new substitution
+# set and a success/failure flag.
 # Params:
-#      list of unifiable terms
+#      unifiable terms
 #      substitution set
 # Return:
 #      new substitution set
 #      success/failure flag
-function include_terms(terms::Vector{Unifiable},
-                       ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}
+function get_functor_arity(terms::Vector{Unifiable},
+                           ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}
 
-    out_terms = Vector{Unifiable}()
-
-    num_terms = length(terms)
-    if num_terms != 3
+    num_args = length(terms)
+    if num_args < 2 || num_args > 3
         return ss, false
     end
 
-    filter_term = terms[1]
-    input_list, ok = cast_linked_list(ss, terms[2])
+    first, ok = cast_complex(ss, terms[1])
     if !ok
         return ss, false
     end
 
-    # Iterate through the input list.
-    while !isnothing(input_list)
-        if input_list.is_tail_var
-            v = input_list.term
-            ground_term, ok = get_ground_term(ss, v)
-            if !ok return ss, false end
-            if typeof(ground_term) == SLinkedList
-                input_list = ground_term
-                continue
-            else
-                if include_filter(ground_term, filter_term, ss)
-                    push!(out_terms, ground_term)
-                end
+    functor = get_functor(first)
+    str_func = functor.str
+
+    new_ss = ss
+
+    # Get second argument (functor)
+    second = terms[2]
+    if typeof(second) == Atom
+        str = second.str
+        len = length(str)
+        if str[end] == '*'  # Eg: noun*
+            if !startswith(str_func, str[1: end-1])
+                return ss, false
             end
         else
-            if !isnothing(input_list.term)
-                if include_filter(input_list.term, filter_term, ss)
-                    push!(out_terms, input_list.term)
-                end
+            if str_func != str
+                return ss, false
             end
         end
-        input_list = input_list.next
+    else
+        new_ss, ok = unify(second, functor, ss)
+        if !ok
+            return new_ss, false
+        end
     end
 
-    out_list = make_linked_list(false, out_terms...)
-    return unify(terms[3], out_list, ss)
+    if num_args == 3
+        third = terms[3]
+        ar = arity(first)
+        return unify(third, SNumber(ar), new_ss)
+    end
 
-end  # include_terms
+    return new_ss, true
 
-export Include
+end  # get_functor_arity
+
+export Functor

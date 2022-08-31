@@ -3,34 +3,19 @@
 # Cleve Lendon
 # 2022
 
-using DataStructures
-
 # letter_number_hyphen - determines whether the given character
 # is a letter, a number, or a hyphen. This excludes punctuation.
 #
 # Params:  character
 # Return:  true/false
 function letter_number_hyphen(ch::Char)::Bool
-    if ch >= 'a' && ch <= 'z'
-        return true
-    end
-    if ch >= 'A' && ch <= 'Z'
-        return true
-    end
-    if ch >= '0' && ch <= '9'
-        return true
-    end
+    if isletter(ch) return true end
+    if isdigit(ch) return true end
     # hyphen or soft hyphen
     if ch == '-' || ch == Char(0xAD)
         return true
     end
-    if ch == '_'
-        return true
-    end
-    if ch >= Char(0xC0)  && ch < Char(0x2C0)
-        return true
-    end
-    if ch >= Char(0x380) && ch < Char(0x510)
+    if ch == '_' # underscore
         return true
     end
     return false
@@ -56,9 +41,10 @@ end
 # will become an And goal, with two complex statements,
 # can_swim and can_fly, as subgoals.
 #
-# Params:  string of tokens
-# Return:  goal
-#          error message
+# Params: string of tokens
+# Return: goal
+#         error message
+#
 function generate_goal(str::String)::Tuple{Union{Goal, SComplex}, String}
     tokens, err = tokenize(str)
     if length(err) > 0
@@ -70,8 +56,7 @@ function generate_goal(str::String)::Tuple{Union{Goal, SComplex}, String}
     return token_tree_to_goal(base_token)
 end
 
-
-# tokenize - divides the given string into a series of tokens.
+# tokenize - Divides the given string into a series of tokens.
 #
 # Note: Parentheses can be part of a complex term: likes(Charles, Gina)
 # or used to group terms: (father($_, $X); mother($_, $X))
@@ -83,7 +68,7 @@ function tokenize(str::String)::Tuple{Vector{Token}, String}
 
     tokens = Vector{Token}()
 
-    stk_parenth = Stack{Symbol}()  # Keeps track of parentheses.
+    stk_parenth = Vector{Symbol}()  # Keeps track of parentheses.
 
     s = strip(str)
 
@@ -101,17 +86,16 @@ function tokenize(str::String)::Tuple{Vector{Token}, String}
     while i <= len
 
         # Get top of stack.
-# xxxxx check this
-if length(stk_parenth) == 0
-    top = :NONE
-else
-        top = first(stk_parenth)
-end
+        if length(stk_parenth) == 0
+            top = :NONE
+        else
+            top = stk_parenth[end]
+        end
 
         ch = s[i]
         if ch == '"'   # Ignore characters between quotes.
             j = i + 1
-            while j < len
+            while j <= len
                 ch = s[j]
                 if ch == '"'
                     i = j
@@ -133,9 +117,13 @@ end
                 err = "tokenize() - Unmatched parenthesis: $s"
                 return tokens, err
             end
-            top = pop!(stk_parenth)
+            if length(stk_parenth) == 0
+                top = :NONE
+            else
+                top = pop!(stk_parenth)
+            end
             if top == :GROUP
-                subgoal = s[start_index: i]
+                subgoal = s[start_index: i - 1]
                 tokens = push!(tokens, token_leaf(subgoal))
                 tokens = push!(tokens, token_leaf(")"))
             elseif top != :COMPLEX
@@ -149,7 +137,11 @@ end
                 err = "tokenize() - Unmatched bracket: $s"
                 return tokens, err
             end
-            top = pop!(stk_parenth)
+            if length(stk_parenth) == 0
+                top = :NONE
+            else
+                top = pop!(stk_parenth)
+            end
             if top != :LINKEDLIST
                 err = "tokenize() - Unmatched bracket: $s"
                 return tokens, err
@@ -161,13 +153,13 @@ end
                     err = "Tokenize() - Invalid character: $s"
                     return tokens, err
                 end
-                if ch == ','   # AND
-                    subgoal = s[start_index: i]
+                if ch == ','   # and
+                    subgoal = string(s[start_index: i - 1])
                     tokens = push!(tokens, token_leaf(subgoal))
                     tokens = push!(tokens, token_leaf(","))
                     start_index = i + 1
-                elseif ch == ';'   # OR
-                    subgoal = s[start_index: i]
+                elseif ch == ';'   # or
+                    subgoal = s[start_index: i -1]
                     tokens = push!(tokens, token_leaf(subgoal))
                     tokens = push!(tokens, token_leaf(";"))
                     start_index = i + 1
@@ -285,7 +277,7 @@ function group_and_tokens(token::Token)::Token
     len = length(and_list)
     if len == 1
         push!(new_children, and_list[1])
-    elseif size > 1
+    elseif len > 1
         push!(new_children, token_branch(:AND, and_list))
     end
 
@@ -294,17 +286,16 @@ function group_and_tokens(token::Token)::Token
 
 end # group_and_tokens
 
-
 # group_or_tokens - groups tokens which are separated by semicolons.
 #
-# Params:  base of token tree
-# Return:  base of token tree
+# Params: base of token tree
+# Return: base of token tree
 #
 function group_or_tokens(token::Token)::Token
 
     children     = token.children
     new_children = Vector{Token}()
-    or_list       = Vector{Token}()
+    or_list      = Vector{Token}()
 
     for token in children
 
@@ -356,7 +347,7 @@ function token_tree_to_goal(token::Token)::Tuple{Union{Goal, SComplex}, String}
                operands = push!(operands, g)
             end
         end
-        return And(operands...), err
+        return SOperator(:AND, operands...), err
     end
 
     if token.the_type == :OR

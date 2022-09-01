@@ -53,10 +53,10 @@ struct Print <: BuiltInPredicate
     end
 end
 
-# suiron_print() - creates a Suiron Print predicate. 
+# Print() - a constructor. Creates a Suiron Print predicate. 
 # Params: array of Unifiable terms
 # Return: print predicate
-function suiron_print(terms::Unifiable...)::Print
+function Print(terms::Unifiable...)::Print
     t::Vector{Unifiable} = [terms...]
     return Print(t)
 end
@@ -202,5 +202,3 @@ function print_terms(arguments::Vector{Unifiable},
     return ss, true  # Can't fail.
 
 end  # print_terms
-
-export Print, suiron_print

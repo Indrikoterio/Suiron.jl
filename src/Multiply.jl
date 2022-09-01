@@ -18,18 +18,18 @@ struct Multiply <: SFunction
     end
 end
 
-# make_multiply - makes a multiply predicate.
+# Multiply - a constructor.
 # Params: list of Unifiable terms (SNumber)
 # Return: multiply predicate
-function make_multiply(terms::Unifiable...)::Multiply
+function Multiply(terms::Unifiable...)::Multiply
     t::Vector{Unifiable} = [terms...]
     return Multiply(t)
 end
 
-# make_multiply - makes a multiply predicate.
+# Multiply - a constructor
 # Params: list of numbers
 # Return: multiply predicate
-function make_multiply(args::Number...)::Multiply
+function Multiply(args::Number...)::Multiply
     terms = Vector{Unifiable}()
     for num in args
         if num isa Number
@@ -114,5 +114,3 @@ function unify(m::Multiply, other::Unifiable,
     end
     return unify(result, other, ss)
 end
-
-export make_multiply

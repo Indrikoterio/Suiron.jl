@@ -37,5 +37,3 @@ end
 
 # For printing.
 Base.show(io::IO, a::Anonymous) = print(io, "\$_")
-
-export Anonymous

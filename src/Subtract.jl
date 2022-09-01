@@ -18,18 +18,18 @@ struct Subtract <: SFunction
     end
 end
 
-# make_subtract - makes a subtract predicate.
+# Subtract - a constructor.
 # Params: list of Unifiable terms (SNumber)
 # Return: subtract predicate
-function make_subtract(terms::Unifiable...)::Subtract
+function Subtract(terms::Unifiable...)::Subtract
     t::Vector{Unifiable} = [terms...]
     return Subtract(t)
 end
 
-# make_subtract - makes a subtract predicate.
+# Subtract - a constructor.
 # Params: list of numbers
 # Return: subtract predicate
-function make_subtract(args::Number...)::Subtract
+function Subtract(args::Number...)::Subtract
     terms = Vector{Unifiable}()
     for num in args
         if num isa Number
@@ -116,5 +116,3 @@ function unify(s::Subtract, other::Unifiable,
     end
     return unify(result, other, ss)
 end
-
-export make_subtract

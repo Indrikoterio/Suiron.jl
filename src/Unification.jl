@@ -29,15 +29,6 @@ struct Unification <: BuiltInPredicate
     end
 end
 
-# make_unification - makes a unification predicate (=).
-# This function accepts only 2 arguments.
-# Params: term 1
-#         term 2
-# Return: unification predicate
-function make_unification(term1::Unifiable, term2::Unifiable)::Unification
-    return Unification(term1, term2)
-end
-
 # parse_unification - creates a logical Unification predicate from
 # a string. If the string does not contain "=", the function will
 # return with the success flag set to false.
@@ -161,5 +152,3 @@ end
 function Base.show(io::IO, sn::UnificationSolutionNode)
     print(io, to_string(sn))
 end
-
-export Unification, make_unification, parse_unification

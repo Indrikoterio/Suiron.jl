@@ -556,8 +556,8 @@ function Base.show(io::IO, sll::SLinkedList)
     print(io, to_string(sll))
 end
 
-export SLinkedList, empty_list, make_linked_list, parse_linked_list
-export SLinkedList, unify, get_count, flatten
+export empty_list, make_linked_list, parse_linked_list
+export unify, get_count, flatten
 
 #=
     Scan the list from head to tail,

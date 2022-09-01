@@ -207,7 +207,7 @@ function parse_subgoal(subgoal::String)::Tuple{Union{Goal, SComplex}, String}
     if infix != :NONE
         if infix == :UNIFICATION
             term1, term2 = get_left_and_right(s, index, 1)
-            return make_unification(term1, term2), ""
+            return Unification(term1, term2), ""
         end
         if infix == :LESS_THAN
             term1, term2 = get_left_and_right(s, index, 2)

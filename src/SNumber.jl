@@ -49,5 +49,3 @@ end
 
 # For printing.
 Base.show(io::IO, num::SNumber) = print(io, num.n)
-
-export SNumber

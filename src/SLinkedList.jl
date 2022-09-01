@@ -556,9 +556,6 @@ function Base.show(io::IO, sll::SLinkedList)
     print(io, to_string(sll))
 end
 
-export empty_list, make_linked_list, parse_linked_list
-export unify, get_count, flatten
-
 #=
     Scan the list from head to tail,
     Curse recursion, force a fail.

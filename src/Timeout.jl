@@ -29,5 +29,3 @@ function elapsed_time()
     d = round(Int64, delta / 1000)
     println("Elapsed time: $d")
 end
-
-export set_max_time, set_start_time, elapsed_time

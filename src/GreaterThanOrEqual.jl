@@ -128,5 +128,3 @@ end  # next_solution
 function to_string(gte::GreaterThanOrEqual)::String
     return "$(gte.terms[1]) >= $(gte.terms[2])"
 end
-
-export GreaterThanOrEqual

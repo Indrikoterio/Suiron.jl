@@ -124,5 +124,3 @@ function append_terms(arguments::Vector{Unifiable},
     return unify(last_term, out_list, ss)
 
 end  # append_terms
-
-export Append

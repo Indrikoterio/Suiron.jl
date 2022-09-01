@@ -91,7 +91,7 @@ end # sr_divide
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(a::Divide, vars::NewVars)::Expression
+function recreate_variables(a::Divide, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(a.terms, vars)
     return Divide(new_terms)
 end

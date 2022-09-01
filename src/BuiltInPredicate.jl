@@ -18,7 +18,7 @@
 # Params: Unifiable term
 #         list of previously recreated Variables
 # Return: new Unifiable term
-function recreate_one_var(term::Unifiable, vars::NewVars)::Unifiable
+function recreate_one_var(term::Unifiable, vars::DictLogicVars)::Unifiable
     tt = typeof(term)
     if tt == LogicVar || tt == SComplex ||
        tt == SLinkedList || tt == SFunction
@@ -35,7 +35,7 @@ end # recreate_one_var()
   Return: array of new terms
 ===============================================================#
 function recreate_vars(terms::Vector{Unifiable},
-                       vars::NewVars)::Vector{Unifiable}
+                       vars::DictLogicVars)::Vector{Unifiable}
     new_terms = Vector{Unifiable}()
     for term in terms
         v = recreate_one_var(term, vars)

@@ -82,7 +82,7 @@ end # sr_add
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(a::Add, vars::NewVars)::Expression
+function recreate_variables(a::Add, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(a.terms, vars)
     return Add(new_terms)
 end

@@ -93,7 +93,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(op::SOperator, vars::NewVars)::Expression
+function recreate_variables(op::SOperator, vars::DictLogicVars)::Expression
     if op.type == :CUT || op.type == :FAIL
         return op
     end

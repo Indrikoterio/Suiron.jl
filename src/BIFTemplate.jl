@@ -54,7 +54,7 @@ end # evaluate
  Return:  expression
 ===============================================================#
 function Suiron.recreate_variables(c::BIFTemplate,
-                               vars::NewVars)::Suiron.Expression
+                               vars::DictLogicVars)::Suiron.Expression
     new_terms = Suiron.recreate_vars(c.terms, vars)
     return BIFTemplate(new_terms)
 end

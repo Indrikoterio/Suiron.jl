@@ -101,7 +101,7 @@ end  # evaluate
           previously recreated variables
  Return:  expression
 ===============================================================#
-function Suiron.recreate_variables(bip::BIPTemplate, vars::NewVars)::Expression
+function Suiron.recreate_variables(bip::BIPTemplate, vars::DictLogicVars)::Expression
     new_terms = Suiron.recreate_vars(bip.terms, vars)
     return BIPTemplate(new_terms)
 end

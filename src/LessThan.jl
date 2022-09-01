@@ -72,7 +72,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(gt::LessThan, vars::NewVars)::Expression
+function recreate_variables(gt::LessThan, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(gt.terms, vars)
     return LessThan(new_terms[1], new_terms[2])
 end

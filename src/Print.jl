@@ -91,7 +91,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(p::Print, vars::NewVars)::Expression
+function recreate_variables(p::Print, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(p.terms, vars)
     return Print(new_terms)
 end

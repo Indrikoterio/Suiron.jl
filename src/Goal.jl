@@ -57,7 +57,7 @@ end # parse_goal
 # contains do not have an index of 0.
 function make_logic_variables_unique(terms::Unifiable...)::Vector{Unifiable}
     new_terms = Vector{Unifiable}()
-    vars = NewVars()
+    vars = DictLogicVars()
     for term in terms
         new_term = recreate_variables(term, vars)
         push!(new_terms, new_term)

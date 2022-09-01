@@ -90,7 +90,7 @@ end # sr_multiply
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(m::Multiply, vars::NewVars)::Expression
+function recreate_variables(m::Multiply, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(m.terms, vars)
     return Multiply(new_terms)
 end

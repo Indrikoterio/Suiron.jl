@@ -92,7 +92,7 @@ end # parse_rule
           vars - previously recreated variables
   Return: expression (new rule)
 ===============================================================#
-function recreate_variables(rule::Rule, vars::NewVars)::Expression
+function recreate_variables(rule::Rule, vars::DictLogicVars)::Expression
     new_head = recreate_variables(rule.head, vars)
     new_body::Union{Goal, SComplex, Nothing} = nothing
     if !isnothing(rule.body)

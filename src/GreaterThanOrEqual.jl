@@ -72,7 +72,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(gte::GreaterThanOrEqual, vars::NewVars)::Expression
+function recreate_variables(gte::GreaterThanOrEqual, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(gte.terms, vars)
     return GreaterThanOrEqual(new_terms[1], new_terms[2])
 end

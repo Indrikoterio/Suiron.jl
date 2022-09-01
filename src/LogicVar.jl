@@ -170,9 +170,9 @@ end
 
 ===============================================================#
 
-const NewVars = Dict{String, LogicVar}
+const DictLogicVars = Dict{String, LogicVar}
 
-function recreate_variables(var::LogicVar, vars::NewVars)::Expression
+function recreate_variables(var::LogicVar, vars::DictLogicVars)::Expression
     new_var = get(vars, var.name_id, nothing)
     if new_var == nothing
         global next_var_id += 1
@@ -205,5 +205,3 @@ end  # to_string
 function Base.show(io::IO, lv::LogicVar)
     print(io, to_string(lv))
 end
-
-export NewVars, recreate_variables

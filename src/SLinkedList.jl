@@ -461,7 +461,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(ll::SLinkedList, vars::NewVars)::Expression
+function recreate_variables(ll::SLinkedList, vars::DictLogicVars)::Expression
     new_terms = Vector{Unifiable}()
     this_list = ll
     vbar = this_list.is_tail_var

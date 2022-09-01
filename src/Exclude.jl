@@ -68,7 +68,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(bip::Exclude, vars::NewVars)::Expression
+function recreate_variables(bip::Exclude, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(bip.terms, vars)
     return Exclude(new_terms)
 end

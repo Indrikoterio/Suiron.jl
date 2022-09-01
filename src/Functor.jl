@@ -95,7 +95,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(f::Functor, vars::NewVars)::Expression
+function recreate_variables(f::Functor, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(f.terms, vars)
     return Functor(new_terms)
 end

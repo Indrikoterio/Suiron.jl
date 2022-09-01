@@ -58,7 +58,7 @@ function get_rule(kb::KnowledgeBase,
              )
     end
     rule = list[i]
-    return recreate_variables(rule, NewVars())
+    return recreate_variables(rule, DictLogicVars())
 
 end # get_rule()
 

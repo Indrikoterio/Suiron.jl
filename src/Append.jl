@@ -56,7 +56,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(a::Append, vars::NewVars)::Expression
+function recreate_variables(a::Append, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(a.terms, vars)
     return Append(new_terms)
 end

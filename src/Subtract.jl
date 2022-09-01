@@ -92,7 +92,7 @@ end # sr_subtract
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(s::Subtract, vars::NewVars)::Expression
+function recreate_variables(s::Subtract, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(s.terms, vars)
     return Subtract(new_terms)
 end

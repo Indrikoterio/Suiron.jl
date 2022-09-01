@@ -242,7 +242,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(c::SComplex, vars::NewVars)::Expression
+function recreate_variables(c::SComplex, vars::DictLogicVars)::Expression
     new_terms = Vector{Unifiable}()
     for i in 1:length(c.terms)
         term = c.terms[i]

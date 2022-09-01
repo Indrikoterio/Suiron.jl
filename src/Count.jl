@@ -110,7 +110,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(c::Count, vars::NewVars)::Expression
+function recreate_variables(c::Count, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(c.terms, vars)
     return Count(new_terms[1], new_terms[2])
 end

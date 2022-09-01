@@ -72,7 +72,7 @@ end
           previously recreated variables
  Return:  expression
 ===============================================================#
-function recreate_variables(gt::GreaterThan, vars::NewVars)::Expression
+function recreate_variables(gt::GreaterThan, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(gt.terms, vars)
     return GreaterThan(new_terms[1], new_terms[2])
 end

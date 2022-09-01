@@ -128,5 +128,3 @@ end  # next_solution
 function to_string(lt::LessThan)::String
     return "$(lt.terms[1]) < $(lt.terms[2])"
 end
-
-export LessThan

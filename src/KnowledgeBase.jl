@@ -116,5 +116,3 @@ end # to_string
 function Base.show(io::IO, kb::KnowledgeBase)
     print(io, to_string(kb))
 end
-
-export KnowledgeBase, add_facts_rules

@@ -63,5 +63,3 @@ end  # to_string
 
 # For printing.
 Base.show(io::IO, a::Atom) = print(io, a.str)
-
-export Atom

@@ -206,4 +206,4 @@ function Base.show(io::IO, lv::LogicVar)
     print(io, to_string(lv))
 end
 
-export LogicVar, NewVars, recreate_variables
+export NewVars, recreate_variables

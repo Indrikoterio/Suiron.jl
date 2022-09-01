@@ -64,5 +64,3 @@ function make_logic_variables_unique(terms::Unifiable...)::Vector{Unifiable}
     end
     return new_terms
 end # make_logic_variables_unique
-
-export make_goal, parse_goal

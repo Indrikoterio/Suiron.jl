@@ -128,5 +128,3 @@ end  # next_solution
 function to_string(gt::GreaterThan)::String
     return "$(gt.terms[1]) > $(gt.terms[2])"
 end
-
-export GreaterThan

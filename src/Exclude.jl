@@ -157,5 +157,3 @@ function exclude_terms(terms::Vector{Unifiable},
     return unify(terms[3], out_list, ss)
 
 end  # exclude_terms
-
-export Exclude

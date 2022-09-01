@@ -1,3 +1,4 @@
+__precompile__(true)
 module Suiron   # A Prolog-like inference engine.
 
 include("./Types.jl")

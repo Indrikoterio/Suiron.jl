@@ -149,5 +149,3 @@ end  # to_string
 function Base.show(io::IO, r::Rule)
     print(io, to_string(r))
 end
-
-export parse_rule

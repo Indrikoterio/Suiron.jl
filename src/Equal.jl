@@ -129,4 +129,3 @@ function to_string(eq::Equal)::String
     return "$(eq.terms[1]) == $(eq.terms[2])"
 end
 
-export Equal

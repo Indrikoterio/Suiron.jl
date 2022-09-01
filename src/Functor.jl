@@ -170,5 +170,3 @@ function get_functor_arity(terms::Vector{Unifiable},
     return new_ss, true
 
 end  # get_functor_arity
-
-export Functor

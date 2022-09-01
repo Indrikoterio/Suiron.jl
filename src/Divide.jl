@@ -18,18 +18,18 @@ struct Divide <: SFunction
     end
 end
 
-# make_divide - makes a divide predicate.
+# Divide - a constructor
 # Params: list of Unifiable terms (SNumber)
 # Return: divide predicate
-function make_divide(terms::Unifiable...)::Divide
+function Divide(terms::Unifiable...)::Divide
     t::Vector{Unifiable} = [terms...]
     return Divide(t)
 end
 
-# make_divide - makes a divide predicate.
+# Divide - a constructor
 # Params: list of numbers
 # Return: divide predicate
-function make_divide(args::Number...)::Divide
+function Divide(args::Number...)::Divide
     terms = Vector{Unifiable}()
     for num in args
         if num isa Number
@@ -115,5 +115,3 @@ function unify(d::Divide, other::Unifiable,
     end
     return unify(result, other, ss)
 end
-
-export make_divide

@@ -58,5 +58,3 @@ function next_solution(sn::NLSolutionNode)::Tuple{SubstitutionSet, Bool}
     # No changes to substitution set. Never fails.
     return sn.parent_solution, true
 end
-
-export NL

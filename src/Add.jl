@@ -18,18 +18,18 @@ struct Add <: SFunction
     end
 end
 
-# make_add - makes an add predicate.
+# Add - a constructor.
 # Params: list of Unifiable terms (SNumber)
 # Return: add predicate
-function make_add(terms::Unifiable...)::Add
+function Add(terms::Unifiable...)::Add
     t::Vector{Unifiable} = [terms...]
     return Add(t)
 end
 
-# make_add - makes an add predicate.
+# Add - a constructor.
 # Params: list of numbers
 # Return: add predicate
-function make_add(args::Number...)::Add
+function Add(args::Number...)::Add
     terms = Vector{Unifiable}()
     for num in args
         if num isa Number
@@ -106,5 +106,3 @@ function unify(a::Add, other::Unifiable,
     end
     return unify(result, other, ss)
 end
-
-export make_add

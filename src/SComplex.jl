@@ -20,15 +20,15 @@ struct SComplex <: Unifiable
     end
 end
 
-# make_complex
-# Params: array of Unifiable terms
+# SComplex - a constructor
+# Params: list of Unifiable terms
 # Return: complex term
-function make_complex(terms::Unifiable...)::SComplex
+function SComplex(terms::Unifiable...)::SComplex
     t::Vector{Unifiable} = [terms...]
     return SComplex(t)
 end
 
-error_complex = make_complex(Atom("error"))
+error_complex = SComplex(Atom("error"))
 
 # parse_complex - parses a string to produce a complex term.
 #
@@ -294,5 +294,3 @@ end  # to_string
 function Base.show(io::IO, cplx::SComplex)
     print(io, to_string(cplx))
 end
-
-export SComplex, make_complex, parse_complex

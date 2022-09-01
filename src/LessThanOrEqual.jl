@@ -128,5 +128,3 @@ end  # next_solution
 function to_string(lte::LessThanOrEqual)::String
     return "$(lte.terms[1]) <= $(lte.terms[2])"
 end
-
-export LessThanOrEqual

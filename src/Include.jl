@@ -155,5 +155,3 @@ function include_terms(terms::Vector{Unifiable},
     return unify(terms[3], out_list, ss)
 
 end  # include_terms
-
-export Include

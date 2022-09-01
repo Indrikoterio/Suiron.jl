@@ -15,14 +15,6 @@ struct Rule <: Expression
     body::Union{Goal, SComplex, Nothing}
 end
 
-# make_rule - A constructor.
-# Params: head term
-#         body of rule
-# Return: rule struct
-#function make_rule(head::SComplex, body::Union{Goal, SComplex})::Rule
-#    return Rule(head, body)
-#end
-
 # Fact - A constructor.
 # A fact is the same as a rule without a body.
 # Params: complex term
@@ -30,14 +22,6 @@ end
 function Fact(c::SComplex)::Rule
     return Rule(c, nothing)
 end
-
-# make_fact - A constructor.
-# A fact is the same as a rule without a body.
-# Params: complex term
-# Return: fact
-#function make_fact(c::SComplex)::Rule
-#    return Rule(c, nothing)
-#end
 
 bad_rule = Rule(error_complex, error_complex)
 
@@ -166,4 +150,4 @@ function Base.show(io::IO, r::Rule)
     print(io, to_string(r))
 end
 
-export Rule, Fact, parse_rule
+export parse_rule

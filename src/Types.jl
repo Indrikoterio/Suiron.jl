@@ -103,7 +103,3 @@ function unify(u1::Unifiable, u2::Unifiable,
     end
     return ss, "Cannot unify."
 end
-
-export Expression, SolutionNode
-export Unifiable, BuiltInPredicate, SubstitutionSet
-export Goal, SFunction

@@ -153,5 +153,3 @@ end
 function Base.show(io::IO, op::SOperator)
     print(io, to_string(op))
 end
-
-export SOperator

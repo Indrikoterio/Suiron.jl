@@ -76,5 +76,3 @@ function Suiron.unify(f::BIFTemplate, other::Unifiable,
     if !ok return ss, false end
     return unify(result, other, ss)
 end
-
-export BIFTemplate

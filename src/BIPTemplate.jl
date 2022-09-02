@@ -105,5 +105,3 @@ function Suiron.recreate_variables(bip::BIPTemplate, vars::DictLogicVars)::Expre
     new_terms = Suiron.recreate_vars(bip.terms, vars)
     return BIPTemplate(new_terms)
 end
-
-export BIPTemplate

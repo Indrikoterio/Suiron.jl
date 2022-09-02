@@ -340,5 +340,3 @@ function parse_function(str::String)::Tuple{SFunction, String}
     return SFunction(), "ParseFunction - Unknown function: $functor"
 
 end # parse_function
-
-export parse_subgoal

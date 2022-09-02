@@ -118,5 +118,3 @@ end
 function Base.show(io::IO, sn::ComplexSolutionNode)
     print(io, to_string(sn))
 end
-
-export ComplexSolutionNode

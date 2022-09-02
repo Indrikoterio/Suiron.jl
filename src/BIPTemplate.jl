@@ -9,12 +9,12 @@
 #
 # Cleve Lendon  2022
 
-struct BIPTemplate <: BuiltInPredicate
+struct BIPTemplate <: Suiron.BuiltInPredicate
     type::Symbol
-    terms::Vector{Unifiable}
+    terms::Vector{Suiron.Unifiable}
     # Constructor
     # Params: an array of unifiable terms.
-    function BIPTemplate(t::Vector{Unifiable})
+    function BIPTemplate(t::Vector{Suiron.Unifiable})
         if length(t) != 2
             throw(ArgumentError("BIPTemplate - requires 2 arguments."))
         end
@@ -25,8 +25,8 @@ end
 # make_predicate - Another constructor. Rename this.
 # Params: list of Unifiable terms
 # Return: built-in predicate struct
-function make_predicate(terms::Unifiable...)::BIPTemplate
-    t::Vector{Unifiable} = [terms...]
+function make_predicate(terms::Suiron.Unifiable...)::BIPTemplate
+    t::Vector{Suiron.Unifiable} = [terms...]
     return BIPTemplate(t)
 end  # make_predicate()
 
@@ -39,9 +39,10 @@ end  # make_predicate()
 # Return: solution node
 ===============================================================#
 function Suiron.get_solver(
-                goal::BIPTemplate, kb::KnowledgeBase,
-                parent_solution::SubstitutionSet,
-                parent_node::Union{SolutionNode, Nothing})::SolutionNode
+                goal::BIPTemplate, kb::Suiron.KnowledgeBase,
+                parent_solution::Suiron.SubstitutionSet,
+                parent_node::Union{Suiron.SolutionNode, Nothing}
+                )::Suiron.SolutionNode
     return BIPTemplateSolutionNode(goal, kb, parent_solution,
                                    parent_node, false, true)
 end
@@ -54,11 +55,11 @@ end
 # arguments. The boolean flag 'more_solutions' is set to false after
 # the first solution is returned.
 
-mutable struct BIPTemplateSolutionNode <: SolutionNode
-    goal::Union{Goal, SComplex}
-    kb::KnowledgeBase
-    parent_solution::SubstitutionSet
-    parent_node::Union{SolutionNode, Nothing}
+mutable struct BIPTemplateSolutionNode <: Suiron.SolutionNode
+    goal::Union{Suiron.Goal, Suiron.SComplex}
+    kb::Suiron.KnowledgeBase
+    parent_solution::Suiron.SubstitutionSet
+    parent_node::Union{Suiron.SolutionNode, Nothing}
     no_back_tracking::Bool
     more_solutions::Bool
 end
@@ -69,15 +70,17 @@ end
 # Return:
 #    updated substitution set
 #    success/failure flag
-function Suiron.next_solution(sn::BIPTemplateSolutionNode)::Tuple{SubstitutionSet, Bool}
+function Suiron.next_solution(
+                sn::BIPTemplateSolutionNode
+                )::Tuple{Suiron.SubstitutionSet, Bool}
     if sn.no_back_tracking || !sn.more_solutions
         return sn.parent_solution, false
     end
     sn.more_solutions = false  # Only one solution.
-    return evaluate(sn.goal.terms, sn.parent_solution)
+    return bip_evaluate(sn.goal.terms, sn.parent_solution)
 end
 
-# evaluate() - Do something with the input and output terms.
+# bip_evaluate() - Do something with the input and output terms.
 # Results should be unified with output terms. See Hyphenate.jl
 # in the test folder for reference. Return an updated substitution
 # set with the success/failure flag set.
@@ -88,8 +91,9 @@ end
 # Return:
 #      updated substitution set
 #      success/failure flag
-function evaluate(arguments::Vector{Unifiable},
-                  ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}
+function bip_evaluate(arguments::Vector{Suiron.Unifiable},
+                  ss::Suiron.SubstitutionSet
+                 )::Tuple{Suiron.SubstitutionSet, Bool}
     return ss, true
 end  # evaluate
 
@@ -101,7 +105,9 @@ end  # evaluate
           previously recreated variables
  Return:  expression
 ===============================================================#
-function Suiron.recreate_variables(bip::BIPTemplate, vars::DictLogicVars)::Expression
+function Suiron.recreate_variables(
+                bip::BIPTemplate,
+                vars::Suiron.DictLogicVars)::Suiron.Expression
     new_terms = Suiron.recreate_vars(bip.terms, vars)
     return BIPTemplate(new_terms)
 end

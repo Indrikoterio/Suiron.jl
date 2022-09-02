@@ -4,16 +4,16 @@
 #
 # Search and replace the string 'BIFTemplate', everywhere it appears,
 # with the name of your new function. Write your function specific code
-# in evaluate(), and rename 'evaluate' to something meaningful.
+# in bif_evaluate(), and rename 'evaluate' to something meaningful.
 # Adjust comments appropriately and rename this file.
 #
 # Cleve Lendon 2022
 
-struct BIFTemplate <: SFunction
+struct BIFTemplate <: Suiron.SFunction
     type::Symbol
-    terms::Vector{Unifiable}
+    terms::Vector{Suiron.Unifiable}
     # Constructor params: an array of unifiable terms.
-    function BIFTemplate(t::Vector{Unifiable})
+    function BIFTemplate(t::Vector{Suiron.Unifiable})
         if length(t) != 2
             throw(ArgumentError("BIFTemplate - requires 2 arguments."))
         end
@@ -24,8 +24,8 @@ end
 # make_function - A constructor. Rename this.
 # Params: list of Unifiable terms
 # Return: built-in function struct
-function make_function(terms::Unifiable...)::BIFTemplate
-    t::Vector{Unifiable} = [terms...]
+function make_function(terms::Suiron.Unifiable...)::BIFTemplate
+    t::Vector{Suiron.Unifiable} = [terms...]
     return BIFTemplate(t)
 end  # make_function()
 
@@ -40,9 +40,9 @@ end  # make_function()
 #    new unifiable
 #    success/failure flag
 #
-function evaluate(arguments::Vector{Unifiable},
-                  ss::SubstitutionSet)::Tuple{Unifiable, Bool}
-    return Atom("Return something."), true
+function bif_evaluate(arguments::Vector{Suiron.Unifiable},
+             ss::Suiron.SubstitutionSet)::Tuple{Suiron.Unifiable, Bool}
+    return Suiron.Atom("Return something."), true
 end # evaluate
 
 #===============================================================
@@ -53,8 +53,9 @@ end # evaluate
           previously recreated variables
  Return:  expression
 ===============================================================#
-function Suiron.recreate_variables(c::BIFTemplate,
-                               vars::DictLogicVars)::Suiron.Expression
+function Suiron.recreate_variables(
+                c::BIFTemplate,
+                vars::Suiron.DictLogicVars)::Suiron.Expression
     new_terms = Suiron.recreate_vars(c.terms, vars)
     return BIFTemplate(new_terms)
 end
@@ -70,9 +71,9 @@ end
      updated substitution set
      success/failure flag
 ===============================================================#
-function Suiron.unify(f::BIFTemplate, other::Unifiable,
-               ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}
-    result, ok = evaluate(f.terms, ss)
+function Suiron.unify(f::BIFTemplate, other::Suiron.Unifiable,
+                ss::Suiron.SubstitutionSet)::Tuple{Suiron.SubstitutionSet, Bool}
+    result, ok = bif_evaluate(f.terms, ss)
     if !ok return ss, false end
-    return unify(result, other, ss)
+    return Suiron.unify(result, other, ss)
 end

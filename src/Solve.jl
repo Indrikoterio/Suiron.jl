@@ -152,5 +152,3 @@ function solve_all(goal::SComplex, kb::KnowledgeBase,
     return solutions, "Timed out."
 
 end  # solve_all
-
-export solve, solve_all

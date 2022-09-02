@@ -143,8 +143,8 @@ end
   recreate_variables - creates unique variables whenever the
   inference engine fetches a rule from the knowledge base.
 
-  The scope of a variable is the rule in which it is defined.
-  For example, in the knowledge base we have:
+  The scope of a logic variable is the rule in which it is
+  defined. For example, in the knowledge base we have:
 
     grandparent($X, $Y) = parent($X, $Z), parent($Z, $Y).
     parent($X, $Y) :- father($X, $Y).
@@ -163,10 +163,10 @@ end
           vars - dictionary of newly recreated logic vars
   Return: expression (new variable)
 
-  About new_vars - if the logic variable $X appears in a rule
-  more than once, it should only be recreated once. The second
-  $X is the same variable. new_vars holds logic variables which
-  have already been recreated for the current rule.
+  About vars - if the logic variable $X appears in a rule more
+  than once, it should only be recreated once. The second $X is
+  the same variable. The dictionary vars holds logic variables
+  which have already been recreated for the current rule.
 
 ===============================================================#
 

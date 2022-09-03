@@ -328,7 +328,7 @@ end # group_or_tokens
 function token_tree_to_goal(token::Token)::Tuple{Union{Goal, SComplex}, String}
 
     children = Vector{Token}()
-    operands = Vector{Goal}()
+    operands = Vector{Union{Goal, SComplex}}()
     err = nothing
 
     if token.the_type == :SUBGOAL
@@ -336,15 +336,15 @@ function token_tree_to_goal(token::Token)::Tuple{Union{Goal, SComplex}, String}
     end
 
     if token.the_type == :AND
-        operands = Vector{Goal}()
+        operands = Vector{Union{Goal, SComplex}}()
         children = token.children
         for child in children
             if child.the_type == :SUBGOAL
                g, err = parse_subgoal(child.token)
-               operands = push!(operands, g)
+               push!(operands, g)
             elseif child.the_type == :GROUP
                g, err = token_tree_to_goal(child)
-               operands = push!(operands, g)
+               push!(operands, g)
             end
         end
         return SOperator(:AND, operands...), err

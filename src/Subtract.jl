@@ -85,6 +85,26 @@ function sr_subtract(arguments::Vector{Unifiable},
 end # sr_subtract
 
 #===============================================================
+  unify - unifies the result of a function with another term,
+  usually a variable.
+
+  Params: Subtract predicate
+          other unifiable term
+          substitution set
+  Returns:
+          updated substitution set
+          success/failure flag
+===============================================================#
+function unify(s::Subtract, other::Unifiable,
+               ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}
+    result, ok = sr_subtract(s.terms, ss)
+    if !ok
+        return ss, false
+    end
+    return unify(result, other, ss)
+end
+
+#===============================================================
  recreate_variables - The scope of a logic variable is the rule
  in which it is defined. Please refer to LogicVar.jl.
 
@@ -95,24 +115,4 @@ end # sr_subtract
 function recreate_variables(s::Subtract, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(s.terms, vars)
     return Subtract(new_terms)
-end
-
-#===============================================================
-  unify - unifies the result of a function with another term,
-  usually a variable.
-
-  Params:
-     other unifiable term
-     substitution set
-  Returns:
-     updated substitution set
-     success/failure flag
-===============================================================#
-function unify(s::Subtract, other::Unifiable,
-               ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}
-    result, ok = sr_subtract(s.terms, ss)
-    if !ok
-        return ss, false
-    end
-    return unify(result, other, ss)
 end

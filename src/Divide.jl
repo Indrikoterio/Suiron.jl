@@ -74,6 +74,9 @@ function sr_divide(arguments::Vector{Unifiable},
             continue
         end
         if arg.n isa Number
+            if arg.n == 0
+               throw(ArgumentError("Divide - divide by 0: $(arg.n)"))
+            end
             result /= arg.n
         else
             throw(ArgumentError("Divide - non-number: $(arg.n)"))
@@ -82,6 +85,26 @@ function sr_divide(arguments::Vector{Unifiable},
     return SNumber(result), true
 
 end # sr_divide
+
+#===============================================================
+  unify - unifies the result of a function with another term,
+  usually a variable.
+
+  Params: Divide predicate
+          other unifiable term
+          substitution set
+  Returns:
+          updated substitution set
+          success/failure flag
+===============================================================#
+function unify(d::Divide, other::Unifiable,
+               ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}
+    result, ok = sr_divide(d.terms, ss)
+    if !ok
+        return ss, false
+    end
+    return unify(result, other, ss)
+end
 
 #===============================================================
  recreate_variables - The scope of a logic variable is the rule
@@ -94,24 +117,4 @@ end # sr_divide
 function recreate_variables(a::Divide, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(a.terms, vars)
     return Divide(new_terms)
-end
-
-#===============================================================
-  unify - unifies the result of a function with another term,
-  usually a variable.
-
-  Params:
-     other unifiable term
-     substitution set
-  Returns:
-     updated substitution set
-     success/failure flag
-===============================================================#
-function unify(d::Divide, other::Unifiable,
-               ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}
-    result, ok = sr_divide(d.terms, ss)
-    if !ok
-        return ss, false
-    end
-    return unify(result, other, ss)
 end

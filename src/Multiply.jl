@@ -83,6 +83,26 @@ function sr_multiply(arguments::Vector{Unifiable},
 end # sr_multiply
 
 #===============================================================
+  unify - unifies the result of a function with another term,
+  usually a variable.
+
+  Params: Multiply predicate
+          other unifiable term
+          substitution set
+  Returns:
+          updated substitution set
+          success/failure flag
+===============================================================#
+function unify(m::Multiply, other::Unifiable,
+               ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}
+    result, ok = sr_multiply(m.terms, ss)
+    if !ok
+        return ss, false
+    end
+    return unify(result, other, ss)
+end
+
+#===============================================================
  recreate_variables - The scope of a logic variable is the rule
  in which it is defined. Please refer to LogicVar.jl.
 
@@ -93,24 +113,4 @@ end # sr_multiply
 function recreate_variables(m::Multiply, vars::DictLogicVars)::Expression
     new_terms = recreate_vars(m.terms, vars)
     return Multiply(new_terms)
-end
-
-#===============================================================
-  unify - unifies the result of a function with another term,
-  usually a variable.
-
-  Params:
-     other unifiable term
-     substitution set
-  Returns:
-     updated substitution set
-     success/failure flag
-===============================================================#
-function unify(m::Multiply, other::Unifiable,
-               ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}
-    result, ok = sr_multiply(m.terms, ss)
-    if !ok
-        return ss, false
-    end
-    return unify(result, other, ss)
 end

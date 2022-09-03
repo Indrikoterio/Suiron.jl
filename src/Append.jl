@@ -26,6 +26,14 @@ struct Append <: BuiltInPredicate
     end
 end
 
+# Append - a constructor.
+# Params: list of terms
+# Return: Append predicate
+function Append(terms::Unifiable...)::Append
+    t::Vector{Unifiable} = [terms...]
+    return Append(t)
+end
+
 mutable struct AppendSolutionNode <: SolutionNode
     goal::Union{Goal, SComplex}
     kb::KnowledgeBase

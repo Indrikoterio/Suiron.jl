@@ -76,6 +76,8 @@ function get_solver(op::SOperator, kb::KnowledgeBase,
         return CutSolutionNode(op, kb, parent_solution, parent_node, false)
     elseif op.type == :FAIL
         return FailSolutionNode(op, kb, parent_solution, parent_node, false)
+    elseif op.type == :NOT
+        return NotSolutionNode(op, kb, parent_solution, parent_node)
     end
 #    return make_complex_solution_node(op, kb, parent_solution, parent_node)
 end

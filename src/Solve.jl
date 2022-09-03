@@ -60,7 +60,6 @@ function solve(goal::SComplex, kb::KnowledgeBase,
         if length(error_message) > 0
             return goal, error_message
         end
-
         if found
             solution = replace_variables(goal, new_ss)
             return solution, ""

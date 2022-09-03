@@ -34,7 +34,7 @@ bad_rule = Rule(error_complex, error_complex)
 #         error message
 function parse_rule(str::String)::Tuple{Rule, String}
 
-    s = strip(str)
+    s = string(strip(str))
     len = length(s)
 
     if len < 4
@@ -46,7 +46,7 @@ function parse_rule(str::String)::Tuple{Rule, String}
     ch = s[end]
     if ch == '.'
         len = len - 1
-        s = s[1:len]
+        s = string(s[1:len])
     end
     index_range = findfirst(":-", s)
 

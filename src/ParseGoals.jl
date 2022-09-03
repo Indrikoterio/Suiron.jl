@@ -171,7 +171,6 @@ end # indices_of_parentheses
 # Params: subgoal as string
 # Return: subgoal as Goal (SComplex)
 #         error message
-#
 function parse_subgoal(subgoal::String)::Tuple{Union{Goal, SComplex}, String}
 
     s = string(strip(subgoal))
@@ -190,7 +189,7 @@ function parse_subgoal(subgoal::String)::Tuple{Union{Goal, SComplex}, String}
         if length(err) > 0
             return SComplex(), err
         end
-        return Not(operand), ""
+        return SOperator(:NOT, operand), ""
     end
 
     if s == "!"  # cut

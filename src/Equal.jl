@@ -64,19 +64,6 @@ function get_solver(goal::Equal, kb::KnowledgeBase,
                              parent_node, false, true)
 end
 
-#===============================================================
- recreate_variables - The scope of a logic variable is the rule
- in which it is defined. Please refer to LogicVar.jl.
-
- Params:  built in predicate
-          previously recreated variables
- Return:  expression
-===============================================================#
-function recreate_variables(gt::Equal, vars::DictLogicVars)::Expression
-    new_terms = recreate_vars(gt.terms, vars)
-    return Equal(new_terms[1], new_terms[2])
-end
-
 # next_solution - compares two numbers, or strings.
 # Params: equal solution node
 # Return:
@@ -120,6 +107,19 @@ function next_solution(sn::EqualSolutionNode)::Tuple{SubstitutionSet, Bool}
     return sn.parent_solution, false
 
 end  # next_solution
+
+#===============================================================
+ recreate_variables - The scope of a logic variable is the rule
+ in which it is defined. Please refer to LogicVar.jl.
+
+ Params:  built in predicate
+          previously recreated variables
+ Return:  expression
+===============================================================#
+function recreate_variables(gt::Equal, vars::DictLogicVars)::Expression
+    new_terms = recreate_vars(gt.terms, vars)
+    return Equal(new_terms[1], new_terms[2])
+end
 
 # to_string - Formats as string for display.
 # Format:  term1 == term2

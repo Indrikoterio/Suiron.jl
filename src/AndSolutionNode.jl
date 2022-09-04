@@ -57,53 +57,53 @@ end
 # Params: and solution node
 # Return: substitution set
 #         success flag
-function next_solution(n::AndSolutionNode)::Tuple{SubstitutionSet, Bool}
+function next_solution(sn::AndSolutionNode)::Tuple{SubstitutionSet, Bool}
 
-    if n.no_back_tracking
-        return n.parent_solution, false
+    if sn.no_back_tracking
+        return sn.parent_solution, false
     end
 
-    if n.tail_solution_node != nothing
-        solution, found = next_solution(n.tail_solution_node)
+    if sn.tail_solution_node != nothing
+        solution, found = next_solution(sn.tail_solution_node)
         if found
             return solution, true
         end
     end
 
-    solution, found = next_solution(n.head_solution_node)
+    solution, found = next_solution(sn.head_solution_node)
     while found
-        if length(n.operator_tail.goals) == 0
+        if length(sn.operator_tail.goals) == 0
             return solution, true
         else
             # tail_solution_node has to be a new AndSolutionNode.
-            n.tail_solution_node = get_solver(n.operator_tail,
-                                              n.kb, solution, n)
-            tail_solution, found = next_solution(n.tail_solution_node)
+            sn.tail_solution_node = get_solver(sn.operator_tail,
+                                               sn.kb, solution, sn)
+            tail_solution, found = next_solution(sn.tail_solution_node)
             if found
                 return tail_solution, true
             end
         end
-        solution, found = next_solution(n.head_solution_node)
+        solution, found = next_solution(sn.head_solution_node)
     end
-    return n.parent_solution, false
+    return sn.parent_solution, false
 end
 
 # has_next_rule - returns true if the knowledge base contains untried
 # rules for this node's goal. False otherwise.
-function has_next_rule(n::AndSolutionNode)::Bool
-    if n.no_back_tracking
+function has_next_rule(sn::AndSolutionNode)::Bool
+    if sn.no_back_tracking
         return false
     end
-    return n.rule_number <= n.count
+    return sn.rule_number <= sn.count
 end
 
 # next_rule - fetches the next rule from the database, according to
 # rule_number. The method has_next_rule() must called to ensure that
 # a rule can be fetched from the knowledge base. If get_rule is called
 # with invalid parameters, the knowledge base will throw an error.
-function next_rule(n::AndSolutionNode)::Rule
-    rule = get_rule(n.kb, n.goal, n.rule_number)
-    n.rule_number += 1
+function next_rule(sn::AndSolutionNode)::Rule
+    rule = get_rule(sn.kb, sn.goal, sn.rule_number)
+    sn.rule_number += 1
     return rule
 end
 
@@ -111,16 +111,16 @@ end
 # This method is useful for diagnostics.
 # Params: AND node
 # Return: string representation
-function to_string(csn::AndSolutionNode)::String
-   g = to_string(csn.goal)
-   if isnothing(csn.parent_node)
+function to_string(sn::AndSolutionNode)::String
+   g = to_string(sn.goal)
+   if isnothing(sn.parent_node)
        pn = "parent_node = nothing"
    else
        pn = "parent_node"
    end
-   no = "no_back_tracking = $(csn.no_back_tracking)"
-   rn = "rule_number = $(csn.rule_number)"
-   co = "count = $(csn.count)"
+   no = "no_back_tracking = $(sn.no_back_tracking)"
+   rn = "rule_number = $(sn.rule_number)"
+   co = "count = $(sn.count)"
    str = "\n$g\nkb\nparent_solution\n$pn\n$no\n$rn\n$co\n"
    return str
 end

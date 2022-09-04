@@ -114,7 +114,7 @@ function solve_all(goal::SComplex, kb::KnowledgeBase,
         root = get_solver(goal, kb, ss, nothing)
         try
             new_ss, found = next_solution(root)
-            elapsed_time()
+            #elapsed_time()
 
             while found
                 # Replace variables with their bound constants.

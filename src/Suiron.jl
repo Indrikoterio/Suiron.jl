@@ -46,9 +46,12 @@ include("./Include.jl")
 include("./Functor.jl")
 include("./Join.jl")
 include("./NotSolutionNode.jl")
+include("./Time.jl")
+include("./TimeSolutionNode.jl")
+include("./RuleReader.jl")
 
 function __init__()
-    println("Suiron has loaded. ---")
+    println("Suiron has loaded.")
 end
 
 end

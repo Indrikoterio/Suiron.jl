@@ -40,7 +40,9 @@ end # add_facts_rules
 function get_rule(kb::KnowledgeBase,
                   goal::Union{Goal, SComplex}, i::Integer)::Rule
 
-    yield() # Allow the timeout timer to run.
+    if next_var_id % 9 == 0
+        yield() # Allow the timeout timer to run.
+    end
 
     key = get_key(goal)
 

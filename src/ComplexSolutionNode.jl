@@ -18,6 +18,10 @@
 # Cleve Lendon
 # 2022
 
+# If matching a goal to a rule fails, restore
+# the next_var_id to the fallback id. 
+fallback_id = 0
+
 mutable struct ComplexSolutionNode <: SolutionNode
 
     goal::Union{Goal, SComplex}
@@ -52,7 +56,13 @@ function next_solution(n::ComplexSolutionNode)::Tuple{SubstitutionSet, Bool}
 
     while has_next_rule(n)
 
+        # The fallback id saves the next_var_id, in case the
+        # next rule fails. Restoring this id to next_var_id
+        # will keep the substitution set small.
+        global fallback_id = next_var_id
+
         rule = next_rule(n)
+
         head = get_head(rule)
         solution, success = unify(head, n.goal, n.parent_solution)
 
@@ -67,10 +77,13 @@ function next_solution(n::ComplexSolutionNode)::Tuple{SubstitutionSet, Bool}
             if ok
                 return child_solution, true
             end
+        else
+            # No success. Fallback to previous id.
+            global next_var_id = fallback_id
         end
     end
-    return n.parent_solution, false
 
+    return n.parent_solution, false
 end # next_solution()
 
 # has_next_rule - returns true if the knowledge base contains

@@ -60,16 +60,14 @@ end
 
 #===============================================================
  count_ll - counts the number of items in a linked list.
- If the last item is a tail variable, eg. [a, b | $T], and
- that variable is bound to another list, count the terms in
- the second list also.
+ If the last item is a tail variable, eg. [a, b | $T], and that
+ variable is bound to another list, count the terms in the
+ second list also.
 
- Params:
-      list of terms (linked list, out variable)
-      substitution set
- Return:
-      updated substitution set
-      success/failure flag
+ Params: list of terms (linked list, out variable)
+         substitution set
+ Return: updated substitution set
+         success/failure flag
 ===============================================================#
 function count_ll(terms::Vector{Unifiable},
                   ss::SubstitutionSet)::Tuple{SubstitutionSet, Bool}

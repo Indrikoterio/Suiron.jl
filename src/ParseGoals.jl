@@ -193,9 +193,9 @@ function parse_subgoal(subgoal::String)::Tuple{Union{Goal, SComplex}, String}
     end
 
     if s == "!"  # cut
-        return Cut(), ""
+        return SOperator(:CUT), ""
     elseif s == "fail"
-        return Fail(), ""
+        return SOperator(:FAIL), ""
     elseif s == "nl"
         return NL(), ""
     end
@@ -277,6 +277,9 @@ function parse_subgoal(subgoal::String)::Tuple{Union{Goal, SComplex}, String}
     end
     if str_functor == "print_list"
         return PrintList(args...), ""
+    end
+    if str_functor == "time"
+        return Time(args...), ""
     end
 
     # Create a complex term.

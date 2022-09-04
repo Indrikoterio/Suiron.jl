@@ -116,6 +116,7 @@ function unify(v::LogicVar, other::Unifiable,
 
     # The unify method of a function evaluates the function, so
     # if the other expression is a function, call its unify method.
+    # if other_type == SFunction  <-- doesn't work
     if other isa SFunction
         return unify(other, v, ss)
     end

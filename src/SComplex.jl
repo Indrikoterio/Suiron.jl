@@ -74,7 +74,7 @@ function parse_complex(str::String)::Tuple{SComplex, String}
     if left == -1 # If left is -1, right must also be -1.
         # SComplex term without arguments.
         f = Atom(s)
-        return SComplex([f]), ""
+        return SComplex(f), ""
     end
 
     functor = String(strip(s[1: left - 1]))
@@ -100,7 +100,7 @@ function parse_functor_terms(functor::String,
 
     f = Atom(functor)
     if str_terms == ""
-        return SComplex([f]), ""
+        return SComplex(f), ""
     end
 
     unifiables = Vector{Unifiable}([f])

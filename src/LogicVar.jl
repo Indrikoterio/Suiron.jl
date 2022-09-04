@@ -201,6 +201,23 @@ function to_string(lv::LogicVar)::String
     return "\$$(lv.name_id)"
 end  # to_string
 
+# reset_next_var_id() - This function is used to increase speed.
+# The inference engine continually copies the substitution set,
+# which is indexed by LogicVar ID. The size of the substitution
+# set is equal to the highest ID.
+# If the var ID is allowed to continually increase, to 10,000,
+# for example, then the algorithm will continually copy huge
+# arrays. Set the ID to 0 for each query.
+function reset_next_var_id()
+    global next_var_id = 0
+end
+
+# get_next_var_id() - For debugging purposes.
+# Return: next_var_id - for logic variables.
+function get_next_var_id()
+    next_var_id
+end
+
 # For printing.
 function Base.show(io::IO, lv::LogicVar)
     print(io, to_string(lv))

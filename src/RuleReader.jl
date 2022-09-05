@@ -11,6 +11,8 @@
 function separate_rules(text::String)::Tuple{Vector{String}, String}
 
     str = ""
+    collected = ""
+
     rules = Vector{String}()
 
     round_depth  = 0
@@ -18,11 +20,12 @@ function separate_rules(text::String)::Tuple{Vector{String}, String}
     quote_depth  = 0
 
     for ch in text
-        str *= ch
+        collected *= ch
         if ch == '.' && round_depth == 0 &&
            square_depth == 0 && (quote_depth % 2) == 0
+            str = collected
             push!(rules, str)
-            str = ""
+            collected = ""
         elseif ch == '('
             round_depth += 1
         elseif ch == '['
@@ -76,11 +79,11 @@ function unmatched_bracket(str::String,
         msg2 = "Check start of file."
     else
         if length(str) > 60
-            str = str[start: 60]
+            str = str[begin: 60]
         end
         msg2 = "Error occurs after: " * str
     end
-    return "Error - $msg $msg2"
+    return "Error - $msg$msg2"
 
 end  # unmatched_bracket
 
@@ -133,11 +136,15 @@ function strip_comments(line::String)::String
         previous = ch
     end # for
 
-    if index > 0
-        return string(strip(line[begin: index - 1]))
-    else
-        return string(strip(line))
+    if index == 1
+        return ""
     end
+
+    if index > 1
+        return string(strip(line[begin: index - 1]))
+    end
+
+    return string(strip(line))
 
 end  # strip_comments
 
@@ -145,21 +152,27 @@ end  # strip_comments
 # Strips out all comments. (Comments are preceded by #, % or # .)
 # Params:  file name
 # Return: array (slice) of rules
-#         error
+#         error, if any
 function read_facts_and_rules(file_name::String)::Tuple{Vector{String}, String}
 
     line_num = 1
     str = ""
-    for line in eachline(file_name)
-        stripped_line = strip_comments(line)
-        if length(stripped_line) > 0
-            err = check_end_of_line(stripped_line, line_num)
-            if length(err) > 0
-                return [""], err
+
+    try
+        for line in eachline(file_name)
+            stripped_line = strip_comments(line)
+            if length(stripped_line) > 0
+                err = check_end_of_line(stripped_line, line_num)
+                if length(err) > 0
+                    return [""], err
+                end
+                str *= "$stripped_line "
             end
-            str *= "$stripped_line "
+            line_num += 1
         end
-        line_num += 1
+    catch err
+        msg = string(sprint(showerror, err))
+        return [], msg
     end
 
     roolz, err = separate_rules(str)

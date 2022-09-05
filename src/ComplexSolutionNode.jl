@@ -41,10 +41,6 @@ end
 # If the search fails, the success flag is set to false.
 function next_solution(n::ComplexSolutionNode)::Tuple{SubstitutionSet, Bool}
 
-    if n.no_back_tracking
-        return n.parent_solution, false
-    end
-
     if !isnothing(n.child)
         solution, found = next_solution(n.child)
         if found

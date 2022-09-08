@@ -14,6 +14,7 @@
 function identify_infix(str::String)::Tuple{Symbol, Integer}
 
     len = length(str)
+    prev = '#'  # not space.
 
     for i = 1:len
         c1 = str[i]
@@ -34,32 +35,50 @@ function identify_infix(str::String)::Tuple{Symbol, Integer}
                 end
             end
         else
-            # Can't be last character.
-            if i == len
-                break
+            # Can't be first or last character.
+            if i == 1 || i >= (len - 2) || prev != ' '
+                prev = c1
+                i += 1
+                continue
             end
             if c1 == '<'
                 c2 = str[i+1]
                 if c2 == '='
-                    return :LESS_THAN_OR_EQUAL, i
+                    c3 = str[i+2]
+                    if c3 == ' '
+                        return :LESS_THAN_OR_EQUAL, i
+                    end
                 end
-                return :LESS_THAN, i
+                if c2 == ' '
+                    return :LESS_THAN, i
+                end
             end
             if c1 == '>'
                 c2 = str[i+1]
                 if c2 == '='
-                    return :GREATER_THAN_OR_EQUAL, i
+                    c3 = str[i+2]
+                    if c3 == ' '
+                        return :GREATER_THAN_OR_EQUAL, i
+                    end
                 end
-                return :GREATER_THAN, i
+                if c2 == ' '
+                    return :GREATER_THAN, i
+                end
             end
             if c1 == '='
                 c2 = str[i+1]
                 if c2 == '='
-                    return :EQUAL, i
+                    c3 = str[i+2]
+                    if c3 == ' '
+                        return :EQUAL, i
+                    end
                 end
-                return :UNIFICATION, i
+                if c2 == ' '
+                    return :UNIFICATION, i
+                end
             end
         end
+        prev = c1
         i += 1
     end # for
 

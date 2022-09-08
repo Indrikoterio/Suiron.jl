@@ -1,12 +1,19 @@
 # Suiron.jl - An Inference Engine written in Julia.
 
-Suiron is an inference engine written in Julia. The rule declaration syntax is very similar to Prolog, but there are some differences.
+Suiron is an inference engine written in Julia. The rule declaration syntax is similar to Prolog, but there are some differences.
 
-This brief README does not present a detailed explanation of how inference engines work, so a basic understanding of Prolog is required. Documentation will be expanded in time.
+This brief README does not present a detailed explanation of how inference engines work, so a basic understanding of Prolog is a prerequisite. Documentation will be expanded in time.
 
 ## Briefly
 
-An inference engine analyzes facts and rules which are stored in a knowledge base. Suiron has a parser which loads these facts and rules from a text-format source file.
+An inference engine responds to queries about facts recorded in a knowledgebase. It also infers information which is not explicitly recorded.
+
+For example, if the knowledgebase records that Frank is the father of Marcus, and that George is the father of Frank, the inference engine will infer that George is the grandfather of Marcus, even though the knowledgebase has no grandfather-facts. (The knowledgebase does need a grandfather-rule, which defines grandfather as a father's father or a mother's father.)
+
+## Interpreter
+
+Suiron reads facts and rules from a text-format source file, parses them, and
+writes them into the knowledgebase.
 
 Below is an example of a fact, which means "June is the mother of Theodore":
 
@@ -34,7 +41,7 @@ The [anonymous](src/Anonymous.jl) variable must also begin with a dollar sign: $
 voter($P) :- $P = person($_, $Age), $Age >= 18.
 ```
 
-<hr><br>
+<hr>
 
 Facts and rules can also be created dynamically within a Julia program. The fact
 mother(June, Theodore) could be created by calling the function parse_complex().
@@ -43,7 +50,9 @@ mother(June, Theodore) could be created by calling the function parse_complex().
     fact = parse_complex("mother(June, Theodore).")
 ```
 
-Please refer to [SComplex.jl](src/SComplex.jl).
+'Complex term' is the same as 'compound term'.
+
+Please refer to comments in [SComplex.jl](src/SComplex.jl) for more information.
 
 Note: Some of Suiron's types have an 'S' appended to the name, to distinguish
 them from Julia types with the same name.
@@ -60,13 +69,13 @@ query  = make_goal(mother, June, child)
 Please refer to [LogicVar.jl](src/LogicVar.jl) and [Goal.jl](src/Goal.jl) for more details.
 
 Note: In the example above, the logic variable Child is defined without a dollar
-sign. The reason for this is because, in a Julia source program, the compiler
-interprets $Child within quotation marks as a string interpolation. Therefore,
+sign. The reason for this is because the Julia compiler interprets $Child as a
+string interpolation, when it is between quotation marks. Therefore,
 when defining a logic variable with LogicVar(), it is necessary to leave the
-dollar sign out.
+dollar sign out. When Suiron prints the variable, the dollar sign will be shown.
 
-In 'parse_' functions, however, the dollar sign cannot be left out. If the 
-Suiron compiler sees 'X', without a dollar sign, it will treat this as an atom.
+In parse-functions, however, the dollar sign cannot be left out. If the 
+Suiron interpreter sees 'X' without a dollar sign, it will treat this as an atom.
 The following is wrong.
 
 ```
@@ -91,9 +100,10 @@ Of course, double quotes within double quotes must also be escaped, with a backs
   c, _ = sr.parse_complex("quote_mark(\", \")")
 ```
 
-<hr><br>
+<hr>
+## Numbers
 
-Suiron supports integer and floating point numbers. A number such as '4' will
+Suiron supports integers and floating point numbers. A number such as '4' will
 be parsed as an integer, and '4.0' will be parsed as a floating point number.
 
 Internally, Suiron lets Julia handle number conversions. When floats and ints
@@ -101,6 +111,9 @@ are mixed in an arithmetic functions or comparisons, Julia will make the necessa
 conversions.
 
 Please refer to [SNumber.jl](src/SNumber.jl).
+
+<hr>
+## Lists
 
 Of course, Suiron supports linked lists, which work the same way as Prolog lists.
 A linked list can be defined in a text file:
@@ -148,10 +161,10 @@ The subfolder /demo contains a simple demo program which parses English sentence
 
 ## Usage
 
-In the top folder is a program called [query.jl](query.jl), which loads facts and rules from a file, and allows the user to query the knowledge base. Query can be run in a terminal window as follows:
+In the top folder is a program called [Query.jl](Query.jl), which loads facts and rules from a file, and allows the user to query the knowledgebase. Query can be run in a terminal window as follows:
 
 ```
-julia query.jl test/kings.txt
+julia Query.jl test/kings.txt
 ```
 
 The user will be prompted for a query with this prompt: ?-
@@ -176,7 +189,7 @@ No
 ?-
 ```
 
-To use Suiron in your own project, copy the subfolder 'suiron' to your project folder. You will have to include:
+To use Suiron in your own project, add the following line:
 
 ```
 using Suiron
@@ -184,15 +197,16 @@ using Suiron
 
 ... at the top of your file.
 
-It's also helpful to define a prefix, such as 'sr'.
+It is useful to define the module name 'Suiron' to something shorter, such as 'sr'.
 
 ```
 const sr = Suiron
 
-a = sr.Atom("")
+pron = sr.Atom("pronoun")
+verb = sr.Atom("verb")
 ```
 
-The program [ParseDemo.jl](demo/ParseDemo.jl) demonstrates how to set up a knowledge base and make queries. If you intend to incorporate Suiron into your own project, this is a good reference. There are detailed comments in the header.
+The program [ParseDemo.jl](demo/ParseDemo.jl) demonstrates how to set up a knowledgebase and make queries. If you intend to incorporate Suiron into your own project, this is a good reference. There are detailed comments in the header.
 
 To run ParseDemo, move to the demo folder and execute the batch file 'run'.
 
@@ -201,7 +215,7 @@ To run ParseDemo, move to the demo folder and execute the batch file 'run'.
  ./run
 ```
 
-Suiron doesn't have a lot of built-in predicates, but it does have: [Append.jl](src/Append.jl), [Functor.jl](src/Functor.jl), [Print.jl](src/Print.jl), [NewLine.jl](src/NewLine.jl), [Include.jl](src/Include.jl), [Exclude.jl](src/Exclude.jl), greater_than (etc.)
+Suiron doesn't have a lot of built-in predicates, but it does have: [Append.jl](src/Append.jl), [Functor.jl](src/Functor.jl), [Print.jl](src/Print.jl), [NewLine.jl](src/NewLine.jl), [Include.jl](src/Include.jl), [Exclude.jl](src/Exclude.jl), [GreaterThan.jl](src/GreaterThan.jl) (etc.)
 
 
 ...and some arithmetic functions: [Add.jl](src/Add.jl), [Subtract.jl](src/Subtract.jl), [Multiply.jl](src/Multiply.jl), [Divide.jl](src/Divide.jl)

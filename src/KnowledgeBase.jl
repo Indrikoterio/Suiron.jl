@@ -110,7 +110,7 @@ function to_string(kb::KnowledgeBase):String
             i += 1
         end
     end
-    sb *= "------------------------------------------"
+    sb *= "------------------------------------------\n"
     return sb
 end # to_string
 

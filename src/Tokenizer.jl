@@ -177,7 +177,7 @@ function tokenize(str::String)::Tuple{Vector{Token}, String}
         return tokens, err
     end
 
-    if len - start_index > 0
+    if len - start_index >= 0
         subgoal = s[start_index: len]
         push!(tokens, token_leaf(string(subgoal)))
     end
@@ -356,10 +356,10 @@ function token_tree_to_goal(token::Token)::Tuple{Union{Goal, SComplex}, String}
         for child in children
             if child.the_type == :SUBGOAL
                g = parse_subgoal(child.token)
-               operands = push!(operands, g)
+               push!(operands, g)
             elseif child.the_type == :GROUP
                g = token_tree_to_goal(child)
-               operands = push!(operands, g)
+               push!(operands, g)
             end
         end
         return Or(operands...)
@@ -375,7 +375,7 @@ function token_tree_to_goal(token::Token)::Tuple{Union{Goal, SComplex}, String}
         return token_tree_to_goal(child_token)
     end
 
-    return nothing
+    return SComplex(), "token_tree_to_goal - Unknown token."
 
 end  # token_tree_to_goal()
 

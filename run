@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+echo ""
+echo "-------------- Run all Suiron tests --------------"
+cd test
+julia RunSuironTests.jl
+echo ""
+echo "-------------- Suiron Parse Demo --------------"
+cd ../demo
+julia ParseDemo.jl
+echo ""

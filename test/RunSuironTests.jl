@@ -2,7 +2,7 @@
 # Tests Suiron functionality.
 # Cleve 2022
 
-push!(LOAD_PATH, "/Users/user/.julia/dev/")
+push!(LOAD_PATH, "..")
 push!(LOAD_PATH, ".")
 
 using SuironTests

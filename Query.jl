@@ -30,7 +30,7 @@
 #
 # Cleve Lendon
 
-push!(LOAD_PATH, "/Users/user/.julia/dev/")
+push!(LOAD_PATH, ".")
 
 using Suiron
 const sr = Suiron

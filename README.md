@@ -47,7 +47,7 @@ Facts and rules can also be created dynamically within a Julia program. The fact
 mother(June, Theodore) could be created by calling the function parse_complex().
 
 ```
-    fact = parse_complex("mother(June, Theodore).")
+fact = parse_complex("mother(June, Theodore).")
 ```
 
 'Complex term' is the same as 'compound term'.
@@ -79,25 +79,25 @@ Suiron interpreter sees 'X' without a dollar sign, it will treat this as an atom
 The following is wrong.
 
 ```
-  rule, err = sr.parse_rule("test3($X) :- $X = add(7.922, 3).")
+rule, err = sr.parse_rule("test3($X) :- $X = add(7.922, 3).")
 ```
 
 The dollar signs must be escaped with backslashes:
 
 ```
-  rule, err = sr.parse_rule("test3(\$X) :- \$X = add(7.922, 3).")
+rule, err = sr.parse_rule("test3(\$X) :- \$X = add(7.922, 3).")
 ```
 
 Alternatively, a percent sign can be used:
 
 ```
-  rule, err = sr.parse_rule("test3(%X) :- %X = add(7.922, 3).")
+rule, err = sr.parse_rule("test3(%X) :- %X = add(7.922, 3).")
 ```
 
 Of course, double quotes within double quotes must also be escaped, with a backslash.
 
 ```
-  c, _ = sr.parse_complex("quote_mark(\", \")")
+c, _ = sr.parse_complex("quote_mark(\", \")")
 ```
 
 <hr>
@@ -119,14 +119,14 @@ Of course, Suiron supports linked lists, which work the same way as Prolog lists
 A linked list can be defined in a text file:
 
 ```
-   ..., [a, b, c, d] = [$Head | $Tail], ...
+..., [a, b, c, d] = [$Head | $Tail], ...
 ```
 
 or created within Julia:
 
 ```
-    X = parse_linked_list("[a, b, c, d]")
-    Y = make_linked_list(true, $Head, $Tail)
+X = parse_linked_list("[a, b, c, d]")
+Y = make_linked_list(true, $Head, $Tail)
 ```
 
 Please refer to [SLinkedList.jl](src/SLinkedList.jl).
@@ -142,15 +142,15 @@ Suiron was developed and tested with Julia version 1.7.3.
 To clone the repository, run the following command in a terminal window:
 
 ```
- git clone git@github.com:Indrikoterio/Suiron.jl.git
+git clone git@github.com:Indrikoterio/Suiron.jl.git
 ```
 
 The repository has three folders:
 
 ```
- suiron/src
- suiron/test
- suiron/demo
+suiron/src
+suiron/test
+suiron/demo
 ```
 
 The code for the inference engine itself is in the subfolder /src.
@@ -211,8 +211,8 @@ The program [ParseDemo.jl](demo/ParseDemo.jl) demonstrates how to set up a knowl
 To run ParseDemo, move to the demo folder and execute the batch file 'run'.
 
 ```
- cd demo
- ./run
+cd demo
+./run
 ```
 
 Suiron doesn't have a lot of built-in predicates, but it does have: [Append.jl](src/Append.jl), [Functor.jl](src/Functor.jl), [Print.jl](src/Print.jl), [NewLine.jl](src/NewLine.jl), [Include.jl](src/Include.jl), [Exclude.jl](src/Exclude.jl), [GreaterThan.jl](src/GreaterThan.jl) (etc.)
@@ -225,8 +225,8 @@ Please refer to the test programs for examples of how to use these.
 To run the tests, open a terminal window, go to the test folder, and execute 'run'.
 
 ```
- cd test
- ./run
+cd test
+./run
 ```
 
 Suiron allows you to write your own built-in predicates and functions. The files [BIPTemplate](src/BIPTemplate) and [BIFTemplate](src/BIFTemplate) can be used as templates. Please read the comments in the headers of these files.

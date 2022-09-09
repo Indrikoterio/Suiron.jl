@@ -92,7 +92,7 @@
 # Cleve (Klivo) Lendon   2022
 #
 
-push!(LOAD_PATH, "/Users/user/.julia/dev/")
+push!(LOAD_PATH, "..")
 using Suiron
 const sr = Suiron
 

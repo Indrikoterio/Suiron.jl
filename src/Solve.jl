@@ -165,18 +165,18 @@ function format_solution(query::SComplex,
                          bindings::Union{SubstitutionSet, Nothing})::String
     if !isnothing(bindings)
         str = ""
-        result = sr.replace_variables(query, bindings)
+        result = replace_variables(query, bindings)
         first = true  # first variable
         for (n, term) in enumerate(query.terms)
             if typeof(term) == LogicVar
                 if !first
                     str *= ", "
                 end
-                str *= sprint("$(term.name) = $(result[n])")
+                str *= "\$$(term.name) = $(result.terms[n])"
                 first = false
             end
         end
-        return str
+        return str *= " "
     end
     return "No"
 

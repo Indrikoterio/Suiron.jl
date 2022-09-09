@@ -151,3 +151,33 @@ function solve_all(goal::SComplex, kb::KnowledgeBase,
     return solutions, "Timed out."
 
 end  # solve_all
+
+
+# format_solution - formats a string to display the variable bindings
+# of a solution. For example, if the query were: grandfather(Godwin, $X),
+# then the function would return: $X = Harold
+# Params:
+#    query
+#    bindings (substitution set)
+# Return:
+#    solution in string format
+function format_solution(query::SComplex,
+                         bindings::Union{SubstitutionSet, Nothing})::String
+    if !isnothing(bindings)
+        str = ""
+        result = sr.replace_variables(query, bindings)
+        first = true  # first variable
+        for (n, term) in enumerate(query.terms)
+            if typeof(term) == LogicVar
+                if !first
+                    str *= ", "
+                end
+                str *= sprint("$(term.name) = $(result[n])")
+                first = false
+            end
+        end
+        return str
+    end
+    return "No"
+
+end  # format_solution

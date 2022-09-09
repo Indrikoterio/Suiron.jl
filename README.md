@@ -100,7 +100,6 @@ Of course, double quotes within double quotes must also be escaped, with a backs
 c, _ = sr.parse_complex("quote_mark(\", \")")
 ```
 
-<hr>
 ## Numbers
 
 Suiron supports integers and floating point numbers. A number such as '4' will
@@ -112,7 +111,6 @@ conversions.
 
 Please refer to [SNumber.jl](src/SNumber.jl).
 
-<hr>
 ## Lists
 
 Of course, Suiron supports linked lists, which work the same way as Prolog lists.

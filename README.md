@@ -236,7 +236,7 @@ cd test
 ./run
 ```
 
-Suiron allows you to write your own built-in predicates and functions. The files [BIPTemplate](src/BIPTemplate) and [BIFTemplate](src/BIFTemplate) can be used as templates. Please read the comments in the headers of these files.
+Suiron allows you to write your own built-in predicates and functions. The files [BIPTemplate.jl](src/BIPTemplate.jl) and [BIFTemplate.jl](src/BIFTemplate.jl) can be used as templates. Please read the comments in the headers of these files.
 
 The files [Hyphenate.jl](test/Hyphenate.jl) and [Capitalize.jl](test/Capitalize.jl) in the test directory can also be used for reference.
 

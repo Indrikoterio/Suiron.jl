@@ -1,14 +1,15 @@
 # Suiron.jl - An Inference Engine written in Julia.
 
-Suiron is an inference engine written in Julia. The rule declaration syntax is similar to Prolog, but there are some differences.
+Suiron is an inference engine written in Julia. The rule declaration syntax is similar to Prolog, but there are differences.
 
 This brief README does not present a detailed explanation of how inference engines work, so a basic understanding of Prolog is a prerequisite. Documentation will be expanded in time.
 
 ## Briefly
 
-An inference engine responds to queries about facts recorded in a knowledgebase. It also infers information which is not explicitly recorded.
+An inference engine responds to queries about facts recorded in a knowledgebase. By using logic
+rules, it can infer information which is not explicitly recorded.
 
-For example, if the knowledgebase records that Frank is the father of Marcus, and that George is the father of Frank, the inference engine will infer that George is the grandfather of Marcus, even though the knowledgebase has no grandfather-facts. (The knowledgebase does need a grandfather-rule, which defines grandfather as a father's father or a mother's father.)
+For example, if the knowledgebase records that Frank is the father of Marcus, and that George is the father of Frank, the inference engine can infer that George is the grandfather of Marcus, even though the knowledgebase has no grandfather-facts. (The knowledgebase does need a rule which defines grandfather as a father's father or a mother's father.)
 
 ## Interpreter
 
@@ -35,22 +36,28 @@ mother(June, $Child).
 
 Please refer to [LogicVar.jl](src/LogicVar.jl).
 
-The [anonymous](src/Anonymous.jl) variable must also begin with a dollar sign: $\_ . A simple underscore '\_' is treated as an atom. Below is an example of a rule which contains an anonymous variable:
+In Prolog, the anonymous variable (which matches anything) is an underscore: \_ .
+In Suiron, it must begin with a dollar sign: $\_ .
+
+Below is an example of a rule which contains anonymous variables. If a knowledgebase
+contains facts about employees, for example, employee(Julia, cashier, 2000),
+then a rule to list high wage employees would be:
 
 ```
-voter($P) :- $P = person($_, $Age), $Age >= 18.
+high_wage($Emp) :- $Emp = employee($_, $_, $Salary), $Salary >= 5000.
 ```
 
 <hr>
 
-Facts and rules can also be created dynamically within a Julia program. The fact
-mother(June, Theodore) could be created by calling the function parse_complex().
+Facts and rules can also be created immediately within a Julia program, without
+loading them from a file. The fact mother(June, Theodore) could be created by calling
+the function parse_complex().
 
 ```
 fact = parse_complex("mother(June, Theodore).")
 ```
 
-'Complex term' is the same as 'compound term'.
+'Complex term' means the same as 'compound term'.
 
 Please refer to comments in [SComplex.jl](src/SComplex.jl) for more information.
 
@@ -68,36 +75,38 @@ query  = make_goal(mother, June, child)
 
 Please refer to [LogicVar.jl](src/LogicVar.jl) and [Goal.jl](src/Goal.jl) for more details.
 
-Note: In the example above, the logic variable Child is defined without a dollar
-sign. The reason for this is because the Julia compiler interprets $Child as a
-string interpolation, when it is between quotation marks. Therefore,
-when defining a logic variable with LogicVar(), it is necessary to leave the
-dollar sign out. When Suiron prints the variable, the dollar sign will be shown.
+Note: In the example above, the logic variable is defined as "Child", not "$Child".
+The reason for this is because Julia interprets $Child as a string interpolation, when it
+is between quotation marks. Therefore, when defining a logic variable with LogicVar(),
+it is necessary to leave the dollar sign out. When the variable is printed, the dollar
+sign will be shown.
 
-In parse-functions, however, the dollar sign cannot be left out. If the 
-Suiron interpreter sees 'X' without a dollar sign, it will treat this as an atom.
-The following is wrong.
+In parse-functions, such as parse\_rule(), parse\_unification(), etc., the dollar sign
+cannot simply be left out. A variable name without a dollar sign would be interpreted
+as an atom.
 
-```
-rule, err = sr.parse_rule("test3($X) :- $X = add(7.922, 3).")
-```
-
-The dollar signs must be escaped with backslashes:
+Dollar signs must be escaped with a backslash. The following is wrong.
 
 ```
-rule, err = sr.parse_rule("test3(\$X) :- \$X = add(7.922, 3).")
+rule, err = parse_rule("test3($X) :- $X = add(7.922, 3).")
+```
+
+This is correct:
+
+```
+rule, err = parse_rule("test3(\$X) :- \$X = add(7.922, 3).")
 ```
 
 Alternatively, a percent sign can be used:
 
 ```
-rule, err = sr.parse_rule("test3(%X) :- %X = add(7.922, 3).")
+rule, err = parse_rule("test3(%X) :- %X = add(7.922, 3).")
 ```
 
 Of course, double quotes within double quotes must also be escaped, with a backslash.
 
 ```
-c, _ = sr.parse_complex("quote_mark(\", \")")
+c, _ = parse_complex("quote_mark(\", \")")
 ```
 
 ## Numbers

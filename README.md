@@ -115,7 +115,7 @@ Suiron supports integers and floating point numbers. A number such as '4' will
 be parsed as an integer, and '4.0' will be parsed as a floating point number.
 
 Internally, Suiron lets Julia handle number conversions. When floats and ints
-are mixed in an arithmetic functions or comparisons, Julia will make the necessary
+are mixed in arithmetic functions or comparisons, Julia will make the necessary
 conversions.
 
 Please refer to [SNumber.jl](src/SNumber.jl).

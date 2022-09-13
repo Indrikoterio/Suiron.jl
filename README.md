@@ -185,7 +185,7 @@ The query below will print out all father/child relationships.
 After typing enter, the program will print out solutions, one after each press of Enter, until there are no more solutions, as indicated by 'No'.
 
 ```
-go run query.jl test/kings.txt
+julia Query.jl test/kings.txt
 ?- father($F, $C).
 $F = Godwin, $C = Harold II
 $F = Godwin, $C = Tostig

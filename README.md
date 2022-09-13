@@ -225,7 +225,7 @@ cd demo
 Suiron doesn't have a lot of built-in predicates, but it does have: [Append.jl](src/Append.jl), [Functor.jl](src/Functor.jl), [Print.jl](src/Print.jl), [NewLine.jl](src/NewLine.jl), [Include.jl](src/Include.jl), [Exclude.jl](src/Exclude.jl), [GreaterThan.jl](src/GreaterThan.jl) (etc.)
 
 
-...and some arithmetic functions: [Add.jl](src/Add.jl), [Subtract.jl](src/Subtract.jl), [Multiply.jl](src/Multiply.jl), [Divide.jl](src/Divide.jl)
+...and some arithmetic functions: [Add.jl](src/Add.jl), [Subtract.jl](src/Subtract.jl), [Multiply.jl](src/Multiply.jl), [Divide.jl](src/Divide.jl), [Equal.jl](src/Equal.jl)
 
 Please refer to the test programs for examples of how to use these.
 

@@ -155,9 +155,9 @@ git clone git@github.com:Indrikoterio/Suiron.jl.git
 The repository has three folders:
 
 ```
-suiron/src
-suiron/test
-suiron/demo
+Suiron/src
+Suiron/test
+Suiron/demo
 ```
 
 The code for the inference engine itself is in the subfolder /src.

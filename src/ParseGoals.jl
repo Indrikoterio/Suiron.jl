@@ -36,7 +36,8 @@ function identify_infix(str::String)::Tuple{Symbol, Integer}
             end
         else
             # Can't be first or last character.
-            if i == 1 || i >= (len - 2) || prev != ' '
+            # Previous character must be space.
+            if prev != ' ' || i >= (len - 2)
                 prev = c1
                 i += 1
                 continue
@@ -48,32 +49,27 @@ function identify_infix(str::String)::Tuple{Symbol, Integer}
                     if c3 == ' '
                         return :LESS_THAN_OR_EQUAL, i
                     end
-                end
-                if c2 == ' '
+                elseif c2 == ' '
                     return :LESS_THAN, i
                 end
-            end
-            if c1 == '>'
+            elseif c1 == '>'
                 c2 = str[i+1]
                 if c2 == '='
                     c3 = str[i+2]
                     if c3 == ' '
                         return :GREATER_THAN_OR_EQUAL, i
                     end
-                end
-                if c2 == ' '
+                elseif c2 == ' '
                     return :GREATER_THAN, i
                 end
-            end
-            if c1 == '='
+            elseif c1 == '='
                 c2 = str[i+1]
                 if c2 == '='
                     c3 = str[i+2]
                     if c3 == ' '
                         return :EQUAL, i
                     end
-                end
-                if c2 == ' '
+                elseif c2 == ' '
                     return :UNIFICATION, i
                 end
             end

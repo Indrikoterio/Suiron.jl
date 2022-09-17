@@ -11,11 +11,11 @@
 #
 # The program starts at main. First it...
 #   - creates an empty knowledge base
-#   - loads part-of-speech data into a map (create_pos_dict)
+#   - loads part-of-speech data into a dictionary (create_pos_dict)
 #   - creates some atoms, logic variables, and rules
 #   - stores these rules into the knowledge base
 #   - loads additional facts and rules from a file (load_kb_from_file)
-#   - read in a text file, sentences.txt
+#   - reads in a text file, sentences.txt
 #   - splits the text into sentences (split_into_sentences)
 #
 # Next, the program calls sentence_to_facts(). This function does several
@@ -75,9 +75,9 @@
 # types of sentence, such as:
 #
 #   subject pronoun, verb
-#   subject noun, verb
+#   subject noun,    verb
 #   subject pronoun, verb, object
-#   subject noun, verb, object
+#   subject noun,    verb, object
 #
 # There are rules to check subject/verb agreement of these sentences:
 #

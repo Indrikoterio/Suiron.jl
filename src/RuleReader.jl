@@ -79,7 +79,7 @@ function unmatched_bracket(str::String,
         msg2 = "Check start of file."
     else
         if length(str) > 60
-            str = str[begin: 60]
+            str = str[1: 60]
         end
         msg2 = "Error occurs after: " * str
     end
@@ -141,7 +141,7 @@ function strip_comments(line::String)::String
     end
 
     if index > 1
-        return string(strip(line[begin: index - 1]))
+        return string(strip(line[1: index - 1]))
     end
 
     return string(strip(line))

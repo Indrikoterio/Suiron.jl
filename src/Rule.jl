@@ -55,7 +55,7 @@ function parse_rule(str::String)::Tuple{Rule, String}
         return Fact(c), err
     else
         index, _ = index_range
-        str_head = s[begin: index - 1]
+        str_head = s[1: index - 1]
         str_body = s[index + 2: end]
 
         # Make sure there is not a second ":-".

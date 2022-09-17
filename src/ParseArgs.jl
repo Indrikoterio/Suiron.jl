@@ -113,7 +113,7 @@ function parse_arguments(str::String)::Tuple{Vector{Unifiable}, String}
         return Array{Unifiable, 1}[], err
     end
 
-    if s[begin] == ','
+    if s[1] == ','
         err = format_pa_error("Missing first argument", s)
         return Array{Unifiable, 1}[], err
     end
@@ -268,7 +268,7 @@ function make_term(str::String, has_digit::Bool,
         return Atom(s), err
     end
 
-    first = s[begin]
+    first = s[1]
     if first == '$' || first == '%'
 
         # Anonymous variable.
@@ -363,7 +363,7 @@ function check_quotes(str::String, count::Integer)::String
     if count != 2
         return "Unmatched quotes: $str"
     end
-    if str[begin] != '"'
+    if str[1] != '"'
         return "Text before opening quote: $str"
     end
     if str[end] != '"'

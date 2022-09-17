@@ -243,7 +243,7 @@ function parse_linked_list(str::String)::Tuple{SLinkedList, String}
 
                     # After a pipe '|', there must be a logic variable.
                     # Check for dollar sign.
-                    if str_term[begin] != '$'
+                    if str_term[1] != '$'
                         err = format_ll_error(
                                   "Require variable after vertical bar", s)
                         return list, err

@@ -49,7 +49,7 @@ struct LogicVar <: Unifiable
             throw(ArgumentError(INVALID_VAR * "$name"))
         end
 
-        first = name[begin]
+        first = name[1]
         if isletter(first)
             if var_id == 0
                 return new(var_id, name, name)

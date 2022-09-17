@@ -59,7 +59,7 @@ function parse_complex(str::String)::Tuple{SComplex, String}
         return error_complex, err
     end
 
-    first =  s[begin]
+    first =  s[1]
     if first == '$' || first == '('
         err = format_complex_error("First character is invalid", s)
         return error_complex, err

@@ -28,7 +28,7 @@
 #
 #    ["They", "envy", "us", "."]
 #
-# Next it creates a linked list by calling MakeLinkedList():
+# Next it creates a linked list by calling make_linked_list():
 #
 #    [They, envy, us, .]
 #

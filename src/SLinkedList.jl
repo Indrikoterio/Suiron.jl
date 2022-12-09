@@ -130,8 +130,8 @@ end
 #
 function equal_escape(str::String, index::Integer, ch::Char)::Bool
     if str[index] == ch
-        if index > 0
-            previous = str[index]
+        if index > 1
+            previous = str[index - 1]
             if previous == '\\'
                 return false
             end

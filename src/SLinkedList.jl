@@ -101,7 +101,11 @@ function make_linked_list(vbar::Bool, args::Unifiable...)::SLinkedList
         term = args[i]
         if i == last_index && typeof(term) == SLinkedList
             tail = term
-            if tail.term != nothing
+            # If the last term is empty [], there
+            # is no need to add it to the tail.
+            if tail.term == nothing
+                tail = nothing
+            else
                num = tail.count + 1
             end
         else

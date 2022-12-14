@@ -147,10 +147,10 @@ end
   The scope of a logic variable is the rule in which it is
   defined. For example, in the knowledge base we have:
 
-    grandparent($X, $Y) = parent($X, $Z), parent($Z, $Y).
+    grandparent($X, $Y) :- parent($X, $Z), parent($Z, $Y).
     parent($X, $Y) :- father($X, $Y).
     parent($X, $Y) :- mother($X, $Y).
-    mother(Martha, Jackie)
+    mother(Martha, Jackie).
     ... other facts and rules
 
   When the rule grandparent/2 is fetched from the knowledge base,

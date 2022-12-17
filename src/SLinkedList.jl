@@ -127,10 +127,10 @@ end
 # are. Examples:
 #
 #   text = "OK, sure."
-#   if compare_escape(text, 2, ',')  # returns true
+#   if equal_escape(text, 2, ',')  # returns true
 #
 #   text2 = "OK\\, sure."  # double backslash escape in code
-#   if compare_escape(text2, 3, ',')  # returns false
+#   if equal_escape(text2, 3, ',')  # returns false
 #
 function equal_escape(str::String, index::Integer, ch::Char)::Bool
     if str[index] == ch

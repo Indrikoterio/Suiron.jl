@@ -160,13 +160,13 @@ function indices_of_parentheses(str::String)::Tuple{Integer, Integer, String}
         i += 1
     end
 
-    if second < first
-        err = "indices_of_parentheses() - Invalid parentheses: $str"
+    if count_left != count_right
+        err = "indices_of_parentheses() - Unbalanced parentheses: $str"
         return first, second, err
     end
 
-    if count_left != count_right
-        err = "indices_of_parentheses() - Unbalanced parentheses: $str"
+    if second < first
+        err = "indices_of_parentheses() - Invalid parentheses: $str"
         return first, second, err
     end
 

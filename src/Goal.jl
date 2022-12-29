@@ -7,7 +7,14 @@
 # Cleve Lendon
 # 2022
 
-function make_goal(terms::Unifiable...)::SComplex
+# make_query - creates a query (type SComplex) from a list
+# of unifiable terms, and ensures that all logic variables
+# have unique IDs.
+#
+# Params: list of terms
+# Return: complex term
+#         error message
+function make_query(terms::Unifiable...)::SComplex
 
     # The main bottleneck in Suiron is the time it takes
     # to copy the substitution set. The substitution set
@@ -18,14 +25,14 @@ function make_goal(terms::Unifiable...)::SComplex
     new_terms = make_logic_variables_unique(terms...)
     return SComplex(new_terms)
 
-end # make_goal
+end # make_query
 
-# parse_goal - creates a goal (SComplex term) from a text string,
-# and ensures that all logic variables have unique IDs.
-# Params: string representation of goal
+# parse_query - creates a query (SComplex term) from a text
+# string, and ensures that all logic variables have unique IDs.
+# Params: string representation of query
 # Return: complex term (array of Unifiables)
 #         error message
-function parse_goal(str::String)::Tuple{SComplex, String}
+function parse_query(str::String)::Tuple{SComplex, String}
 
     # The main bottleneck in Suiron is the time it takes
     # to copy the substitution set. The substitution set
@@ -41,7 +48,7 @@ function parse_goal(str::String)::Tuple{SComplex, String}
     new_terms = make_logic_variables_unique(c.terms...)
     return SComplex(new_terms), ""
 
-end # parse_goal
+end # parse_query
 
 # make_logic_variables_unique - Long explanation.
 # A substitution set keeps track of the bindings of logic variables.

@@ -79,14 +79,14 @@ function main(args)
             previous = query
         end
 
-        goal, err = sr.parse_goal(query)
+        query, err = sr.parse_query(query)
         if length(err) > 0
             println(err)
             continue
         end
 
         # Get the root solution node.
-        root = sr.get_solver(goal, kb, sr.SubstitutionSet(), nothing)
+        root = sr.get_solver(query, kb, sr.SubstitutionSet(), nothing)
 
         while true
             solution, found = sr.next_solution(root)
@@ -94,7 +94,7 @@ function main(args)
                 println("No")
                 break
             end
-            result = sr.format_solution(goal, solution)
+            result = sr.format_solution(query, solution)
             print(result)
             readline()
         end

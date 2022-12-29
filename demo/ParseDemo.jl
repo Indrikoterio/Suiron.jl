@@ -200,9 +200,9 @@ function main()
         in_list = sentence_to_facts(sentence, kb, pos)
 
         sr.set_max_time(1.2)
-        goal = sr.make_goal(parse, in_list, X)
+        query = sr.make_query(parse, in_list, X)
 
-        _, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+        _, failure = sr.solve(query, kb, sr.SubstitutionSet())
         if length(failure) != 0
             println(failure)
         end

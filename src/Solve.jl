@@ -18,13 +18,13 @@
 #
 # Note: This method only finds the first result. See solve_all below.
 #
-# Params:  goal
+# Params:  query
 #          knowledge base
 #          substitution set (previous bindings)
 # Returns: solution (SComplex)
 #          reason for failure, if any
 #
-function solve(goal::SComplex, kb::KnowledgeBase,
+function solve(query::SComplex, kb::KnowledgeBase,
                ss::SubstitutionSet)::Tuple{SComplex, String}
 
     cond = Condition()
@@ -40,7 +40,7 @@ function solve(goal::SComplex, kb::KnowledgeBase,
 
     tsk = @async begin
         # Get the root solution node.
-        root = get_solver(goal, kb, ss, nothing)
+        root = get_solver(query, kb, ss, nothing)
         try
             #set_start_time()
             new_ss, found = next_solution(root)
@@ -58,19 +58,19 @@ function solve(goal::SComplex, kb::KnowledgeBase,
     if tsk.state == :done
 
         if length(error_message) > 0
-            return goal, error_message
+            return query, error_message
         end
         if found
-            solution = replace_variables(goal, new_ss)
+            solution = replace_variables(query, new_ss)
             return solution, ""
         else
-            return goal, "No"
+            return query, "No"
         end
 
     end
 
     global suiron_stop_query = true
-    return goal, "Timed out."
+    return query, "Timed out."
 
 end  # solve()
 
@@ -88,13 +88,13 @@ end  # solve()
 # The function has a timer which will stop the query after
 # a timeout. See set_max_time() in Timeout.jl.
 #
-# Params:  goal
+# Params:  query
 #          knowledge base
 #          substitution set
 # Returns: solutions
 #          failure reason
 #
-function solve_all(goal::SComplex, kb::KnowledgeBase,
+function solve_all(query::SComplex, kb::KnowledgeBase,
                    ss::SubstitutionSet)::Tuple{Vector{SComplex}, String}
 
     solutions = Vector{SComplex}()
@@ -111,14 +111,14 @@ function solve_all(goal::SComplex, kb::KnowledgeBase,
 
     tsk = @async begin
         # Get the root solution node.
-        root = get_solver(goal, kb, ss, nothing)
+        root = get_solver(query, kb, ss, nothing)
         try
             new_ss, found = next_solution(root)
             #elapsed_time()
 
             while found
                 # Replace variables with their bound constants.
-                sol = replace_variables(goal, new_ss)
+                sol = replace_variables(query, new_ss)
                 push!(solutions, sol)
                 #set_start_time()
                 new_ss, found = next_solution(root)
@@ -175,6 +175,9 @@ function format_solution(query::SComplex,
                 str *= "\$$(term.name) = $(result.terms[n])"
                 first = false
             end
+        end
+        if length(str) == 0
+            return "True "
         end
         return str *= " "
     end

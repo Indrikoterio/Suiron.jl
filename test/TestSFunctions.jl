@@ -43,8 +43,8 @@ function test_sfunctions()
 
     sr.add_facts_rules(kb, r1)  # Add rule to knowledge base.
 
-    goal = sr.make_goal(test, sr.Atom("london"), X)
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    query = sr.make_query(test, sr.Atom("london"), X)
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
 
     if length(failure) != 0
         println("Test SFunctions - $failure")

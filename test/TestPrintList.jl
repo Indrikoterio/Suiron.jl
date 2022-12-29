@@ -18,7 +18,7 @@ function test_print_list()
     r1 = sr.Rule(head, body)
     sr.add_facts_rules(kb, r1)
 
-    goal, _ = sr.parse_goal("print_list_test")
-    sr.solve(goal, kb, sr.SubstitutionSet())
+    query, _ = sr.parse_query("print_list_test")
+    sr.solve(query, kb, sr.SubstitutionSet())
 
 end  # test_print_list

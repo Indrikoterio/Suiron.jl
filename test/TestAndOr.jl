@@ -51,9 +51,9 @@ function test_and_or()
 
     sr.add_facts_rules(kb, r1, r2, r3)
 
-    goal, _ = sr.parse_goal("relative(\$X, Marcus)")
+    query, _ = sr.parse_query("relative(\$X, Marcus)")
 
-    results, failure = sr.solve_all(goal, kb, sr.SubstitutionSet())
+    results, failure = sr.solve_all(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test And Or - ", failure)
     end

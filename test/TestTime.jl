@@ -17,12 +17,12 @@ function test_time()
         return
     end
 
-    goal, _ = sr.parse_goal("measure")
+    query, _ = sr.parse_query("measure")
     ss = sr.SubstitutionSet()
 
     for i in 1:2
         sr.reset_next_var_id()  # For speed
-        _, failure = sr.solve(goal, kb, ss)
+        _, failure = sr.solve(query, kb, ss)
         if length(failure) > 0
             println("  Test Time: $failure")
         end

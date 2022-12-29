@@ -36,8 +36,8 @@ function test_print()
     sr.add_facts_rules(kb, r1)
     sr.set_max_time(1.2)
 
-    goal = sr.make_goal(print_test)
-    _, failure = sr.solve(goal, kb, ss)
+    query = sr.make_query(print_test)
+    _, failure = sr.solve(query, kb, ss)
     if length(failure) != 0
         println("Test Print - $failure")
     end
@@ -56,8 +56,8 @@ function test_print()
     r2 = sr.Rule(c5, c6)
     sr.add_facts_rules(kb, r2)
 
-    goal = sr.make_goal(print_test2)
-    _, failure = sr.solve(goal, kb, ss)
+    query = sr.make_query(print_test2)
+    _, failure = sr.solve(query, kb, ss)
 
     if length(failure) != 0
         println("Test Print - $failure")

@@ -115,9 +115,9 @@ function test_comparison()
     sr.add_facts_rules(kb, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12)
     sr.add_facts_rules(kb, r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23, r24)
 
-    goal, _ = sr.parse_goal("test(\$Z)")
+    query, _ = sr.parse_query("test(\$Z)")
 
-    solutions, failure = sr.solve_all(goal, kb, ss)
+    solutions, failure = sr.solve_all(query, kb, ss)
 
     if length(failure) != 0
         println("Test Comparison - $failure")

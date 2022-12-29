@@ -42,9 +42,9 @@ function test_append()
 
     kb = sr.KnowledgeBase()
     sr.add_facts_rules(kb, r1)
-    goal = sr.make_goal(test_append, Out)
+    query = sr.make_query(test_append, Out)
 
-    results, failure = sr.solve_all(goal, kb, ss)
+    results, failure = sr.solve_all(query, kb, ss)
 
     if failure != ""
         println("Test Append - $failure")

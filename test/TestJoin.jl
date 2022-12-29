@@ -59,9 +59,9 @@ function test_join()
     ss = sr.SubstitutionSet()
 
     X = sr.LogicVar("X")
-    goal = sr.make_goal(would_you_like, X)
+    query = sr.make_query(would_you_like, X)
 
-    results, failure = sr.solve(goal, kb, ss)
+    results, failure = sr.solve(query, kb, ss)
     if failure != ""
         println("Test Join - $failure")
         return

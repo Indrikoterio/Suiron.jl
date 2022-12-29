@@ -49,8 +49,8 @@ function test_read_rules()
         return
     end
 
-    goal, _ = sr.parse_goal("grandfather(\$X, Skule)")
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    query, _ = sr.parse_query("grandfather(\$X, Skule)")
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
 
     if length(failure) > 0
         println("TestReadRules: No solution.\n", failure)

@@ -34,13 +34,13 @@ function test_functor()
     r2, _ = sr.parse_rule("get($Y) :- $X = cat(mammal, carnivore), functor($X, $Y).")
     sr.add_facts_rules(kb, r2)
 
-    goal = sr.make_goal(get, X)  # get($X)
+    query = sr.make_query(get, X)  # get($X)
 
     # Check the solutions for get($X).
     expected::Vector{String} = ["mouse", "cat"]
 
     # Get the root solution node.
-    root = sr.get_solver(goal, kb, sr.SubstitutionSet(), nothing)
+    root = sr.get_solver(query, kb, sr.SubstitutionSet(), nothing)
 
     for i in (1, 2)
         solution, found = sr.next_solution(root)
@@ -48,7 +48,7 @@ function test_functor()
             println("Test Functor - expected two solutions")
             return
         end
-        result = sr.replace_variables(goal, solution)
+        result = sr.replace_variables(query, solution)
         str = sr.to_string(sr.get_term(result, 2))
         if str != expected[i]
             println("Test Functor - expected: ", expected[i])
@@ -67,10 +67,10 @@ function test_functor()
     r3    = sr.Rule(head, body2)
     sr.add_facts_rules(kb, r3)
 
-    goal = sr.make_goal(check_arity, X, Y)
+    query = sr.make_query(check_arity, X, Y)
 
     # Get the root solution node.
-    root = sr.get_solver(goal, kb, sr.SubstitutionSet(), nothing)
+    root = sr.get_solver(query, kb, sr.SubstitutionSet(), nothing)
 
     solution, found = sr.next_solution(root)
     if !found
@@ -78,7 +78,7 @@ function test_functor()
         return
     end
 
-    result  = sr.replace_variables(goal, solution)
+    result  = sr.replace_variables(query, solution)
     functor = sr.get_term(result, 2)
     arity   = sr.get_term(result, 3)
 

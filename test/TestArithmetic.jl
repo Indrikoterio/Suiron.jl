@@ -39,9 +39,9 @@ function test_arithmetic()
     r     = sr.Rule(head, body)
     sr.add_facts_rules(kb, r)
     
-    goal = sr.make_goal(test1, X)
+    query = sr.make_query(test1, X)
 
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test Arithmetic 1 - $failure")
         return
@@ -64,9 +64,9 @@ function test_arithmetic()
     r     = sr.Rule(head, body)
     sr.add_facts_rules(kb, r)
 
-    goal = sr.make_goal(test2, X)
+    query = sr.make_query(test2, X)
 
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test Arithmetic 2 - $failure")
         return
@@ -86,9 +86,9 @@ function test_arithmetic()
 
     r, _ = sr.parse_rule("test3(\$X) :- \$X = add(7.922, 3).")
     sr.add_facts_rules(kb, r)
-    goal, _ = sr.parse_goal("test3(\$X)")
+    query, _ = sr.parse_query("test3(\$X)")
 
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test Arithmetic 3 - $failure")
         return
@@ -115,9 +115,9 @@ function test_arithmetic()
     r     = sr.Rule(head, body)
     sr.add_facts_rules(kb, r)
     
-    goal = sr.make_goal(test4, X)
+    query = sr.make_query(test4, X)
 
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test Arithmetic 4 - $failure")
         return
@@ -136,9 +136,9 @@ function test_arithmetic()
 
     r, _ = sr.parse_rule("test5(\$X) :- \$X = subtract(5.68, 3).")
     sr.add_facts_rules(kb, r)
-    goal, _ = sr.parse_goal("test5(\$X)")
+    query, _ = sr.parse_query("test5(\$X)")
 
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test Arithmetic 5 - $failure")
         return
@@ -159,9 +159,9 @@ function test_arithmetic()
 
     r, _ = sr.parse_rule("test6(\$X) :- \$X = multiply(4, 2).")
     sr.add_facts_rules(kb, r)
-    goal, _ = sr.parse_goal("test6(\$X)")
+    query, _ = sr.parse_query("test6(\$X)")
 
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test Arithmetic 6 - $failure")
         return
@@ -181,9 +181,9 @@ function test_arithmetic()
 
     r, _ = sr.parse_rule("test7(\$X) :- \$X = multiply(3.14159, 2).")
     sr.add_facts_rules(kb, r)
-    goal, _ = sr.parse_goal("test7(\$X)")
+    query, _ = sr.parse_query("test7(\$X)")
 
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test Arithmetic 7 - $failure")
         return
@@ -205,9 +205,9 @@ function test_arithmetic()
 
     r, _ = sr.parse_rule("test8(\$X) :- \$X = divide(4, 2).")
     sr.add_facts_rules(kb, r)
-    goal, _ = sr.parse_goal("test8(\$X)")
+    query, _ = sr.parse_query("test8(\$X)")
 
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test Arithmetic 8 - $failure")
         return
@@ -254,7 +254,7 @@ function test_arithmetic()
     r = sr.Rule(head, sr.SOperator(:AND, u1, u2, u3, u4))
     sr.add_facts_rules(kb, r)
 
-    calc, _ = sr.parse_goal("calculate(3.0, 7.0, \$Out)")
+    calc, _ = sr.parse_query("calculate(3.0, 7.0, \$Out)")
 
     solution, failure = sr.solve(calc, kb, sr.SubstitutionSet())
     if length(failure) != 0

@@ -40,14 +40,14 @@ function test_solve()
 
     X = sr.LogicVar("X")
 
-    # Do not use make_complex() to create a goal, because logic
-    # variables must have unique IDs. make_goal() ensures that
+    # Do not use make_complex() to create a query, because logic
+    # variables must have unique IDs. make_query() ensures that
     # each variable is assigned a unique ID.
 
-    goal = sr.make_goal(hobby, tim, X)  # Goal is: hobby(Tim, $X)
+    query = sr.make_query(hobby, tim, X)  # Goal is: hobby(Tim, $X)
 
     expected = "hobby(Tim, dance)"
-    actual, failure = sr.solve(goal, kb, ss)
+    actual, failure = sr.solve(query, kb, ss)
 
     if length(failure) != 0
         println("Test solve() - $failure")
@@ -62,10 +62,10 @@ function test_solve()
 
     Y = sr.LogicVar("Y")
 
-    # make_goal() ensures that each variable is assigned a unique ID.
-    goal = sr.make_goal(hobby, X, Y)
+    # make_query() ensures that each variable is assigned a unique ID.
+    query = sr.make_query(hobby, X, Y)
 
-    results, failure = sr.solve_all(goal, kb, ss)
+    results, failure = sr.solve_all(query, kb, ss)
     if length(failure) != 0
         println("Test solve_all() - $failure")
         return
@@ -108,10 +108,10 @@ function test_solve()
     sr.add_facts_rules(kb, r1)
 
     # Even though c4 does not contain variables, it's better to
-    # create a goal with make_goal(), because make_goal() sets
+    # create a goal with make_query(), because make_query() sets
     # the next_var_id to 0.
-    goal = sr.make_goal(sr.Atom("Time out test"))
-    _, failure = sr.solve(goal, kb, ss)
+    query = sr.make_query(sr.Atom("Time out test"))
+    _, failure = sr.solve(query, kb, ss)
     if failure !== "Timed out."
         println("Test Time Out 1 - Should time out.\n", failure)
         return
@@ -127,8 +127,8 @@ function test_solve()
     r2 = sr.Rule(cEndless, cEndless)   # Rule is: endless($X) :- endless($X).
     sr.add_facts_rules(kb, r2)
 
-    goal = sr.make_goal(endless, sr.Atom("loop"))     # Goal is: endless(loop)
-    _, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    query = sr.make_query(endless, sr.Atom("loop"))     # Goal is: endless(loop)
+    _, failure = sr.solve(query, kb, sr.SubstitutionSet())
 
     if failure != "Timed out."
         println("Test Time Out 2 - Should time out.\n", failure)

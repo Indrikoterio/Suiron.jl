@@ -54,7 +54,7 @@ function test_backward_chaining()
     # Register the above rules in the knowledge base.
     sr.add_facts_rules(kb, r1, r2)
 
-    goal = sr.make_goal(ancestor, charles, Y)
+    query = sr.make_query(ancestor, charles, Y)
 
     # Check the solutions of ancestor(Charles, $Y).
     expected::Vector{String} = ["ancestor(Charles, Tony)",
@@ -62,7 +62,7 @@ function test_backward_chaining()
                                 "ancestor(Charles, Bill)",
                                 "ancestor(Charles, Audrey)"]
 
-    solutions, failure = sr.solve_all(goal, kb, ss)
+    solutions, failure = sr.solve_all(query, kb, ss)
     if length(failure) != 0
         println("Test Backward Chaining - $failure")
     end

@@ -52,8 +52,8 @@ function test_not()
     sr.add_facts_rules(kb, f1, f2, f3, f4, f5, f6, r1, r2, r3, r4)
 
     # ?- father($X, Daniel)
-    goal, _ = sr.parse_goal("father(\$X, Daniel)")
-    result, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    query, _ = sr.parse_query("father(\$X, Daniel)")
+    result, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if failure != ""
         println("Test Not - $failure")
         return
@@ -70,8 +70,8 @@ function test_not()
     # Second test.
     # ?- invite($X)
 
-    goal, _ = sr.parse_goal("invite(\$X)")
-    solutions, failure = sr.solve_all(goal, kb, sr.SubstitutionSet())
+    query, _ = sr.parse_query("invite(\$X)")
+    solutions, failure = sr.solve_all(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test Not - $failure")
         return
@@ -90,8 +90,8 @@ function test_not()
     # Third test.
     # ?- invite2($X)
 
-    goal, _ = sr.parse_goal("invite2(\$X)")
-    solutions, failure = sr.solve_all(goal, kb, sr.SubstitutionSet())
+    query, _ = sr.parse_query("invite2(\$X)")
+    solutions, failure = sr.solve_all(query, kb, sr.SubstitutionSet())
     if length(failure) != 0
         println("Test Not - $failure")
         return

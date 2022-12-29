@@ -11,13 +11,13 @@ function test_complex()
 
     X  = sr.LogicVar("X")
 
-    # Use make_goal(), instead of make_complex(), to ensure
+    # Use make_query(), instead of make_complex(), to ensure
     # that logic variables have unique IDs.
-    c1 = sr.make_goal(owns, john, house)  # owns(John, house)
-    c2 = sr.make_goal(owns, john, house)  # owns(John, house)
-    c3 = sr.make_goal(owns, john, car)    # owns(John, car)
+    c1 = sr.make_query(owns, john, house)  # owns(John, house)
+    c2 = sr.make_query(owns, john, house)  # owns(John, house)
+    c3 = sr.make_query(owns, john, car)    # owns(John, car)
 
-    c4 = sr.make_goal(owns, john, X)
+    c4 = sr.make_query(owns, john, X)
     ss = sr.SubstitutionSet()
 
     new_ss, success = sr.unify(c1, c2, ss)

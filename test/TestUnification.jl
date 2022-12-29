@@ -16,7 +16,7 @@ function test_unification()
 
     # First test is:
     # test($X) :- $X = pronoun.
-    # Goal is test($X)
+    # Query is test($X)
 
     X       = sr.LogicVar("X")
     pronoun = sr.Atom("pronoun")
@@ -31,9 +31,9 @@ function test_unification()
 
     sr.add_facts_rules(kb, r1)  # Add rule to knowledge base.
 
-    goal = sr.make_goal(test, X)
+    query = sr.make_query(test, X)
 
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
 
     if length(failure) > 0
         println("Test unification() - Failure: ", failure)
@@ -49,7 +49,7 @@ function test_unification()
 
     # Second test is:
     # test2($A, $B, $C) := [eagle, parrot, raven, sparrow] = [$A, $B | $C].
-    # Goal is test2($A, $B, $C)
+    # Query is test2($A, $B, $C)
 
     A = sr.LogicVar("A")
     B = sr.LogicVar("B")
@@ -69,8 +69,8 @@ function test_unification()
     r2 = sr.Rule(head2, body2)
     sr.add_facts_rules(kb, r2)
 
-    goal = sr.make_goal(test2, A, B, C)
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    query = sr.make_query(test2, A, B, C)
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
 
     if length(failure) > 0
         println("Test unification() - Failure: ", failure)
@@ -118,8 +118,8 @@ function test_unification()
     r1 = sr.Rule(head, body3)
     sr.add_facts_rules(kb, r1)
 
-    goal, _ = sr.parse_goal("unification_test(\$X, \$Y, \$Z)")
-    solutions, failure = sr.solve_all(goal, kb, sr.SubstitutionSet())
+    query, _ = sr.parse_query("unification_test(\$X, \$Y, \$Z)")
+    solutions, failure = sr.solve_all(query, kb, sr.SubstitutionSet())
 
     # Expected solutions of unification_test($X, $Y, $Z).
     expected2::Vector{String} = ["unification_test(lawyer, programmer, janitor)",
@@ -148,7 +148,7 @@ function test_unification()
 
     #=
       second_test($Y) :- $X = up, $Y = down, $X = $Y.
-      This goal must fail.
+      This query must fail.
     =#
 
     u1, _   = sr.parse_unification("\$X = up")
@@ -159,8 +159,8 @@ function test_unification()
     r2 = sr.Rule(head, body4)
     sr.add_facts_rules(kb, r2)
 
-    goal, _ = sr.parse_goal("second_test(\$Y)")
-    _, failure = sr.solve_all(goal, kb, sr.SubstitutionSet())
+    query, _ = sr.parse_query("second_test(\$Y)")
+    _, failure = sr.solve_all(query, kb, sr.SubstitutionSet())
 
     if failure != "No"
         println("Test unification() - Query must fail.")

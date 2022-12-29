@@ -51,10 +51,10 @@ function test_fail()
     r2 = sr.Rule(head, body2)
     sr.add_facts_rules(kb, r2)
 
-    goal = sr.make_goal(test)
+    query = sr.make_query(test)
 
     #sr.set_start_time()
-    _, failure = sr.solve_all(goal, kb, ss)
+    _, failure = sr.solve_all(query, kb, ss)
     #sr.elapsed_time()
 
     if failure == ""

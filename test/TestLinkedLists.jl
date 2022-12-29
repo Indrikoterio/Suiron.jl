@@ -223,10 +223,10 @@ function test_linked_lists()
     kb = sr.KnowledgeBase()
     sr.add_facts_rules(kb, r1)
 
-    goal = sr.make_goal(test_count, Out)
+    query = sr.make_query(test_count, Out)
     ss = sr.SubstitutionSet()
 
-    solution, failure = sr.solve(goal, kb, ss)
+    solution, failure = sr.solve(query, kb, ss)
 
     if length(failure) > 0
         println("Test Linked Lists - Count - $failure")

@@ -94,8 +94,8 @@ function test_variables()
         println("Test Variables - unification should not succeed: \$Z = \$W")
     end
 
-    c1 = sr.make_goal(pronoun, me, first, sing, acc)
-    c2 = sr.make_goal(pronoun, me, person, plurality, case_)
+    c1 = sr.make_query(pronoun, me, first, sing, acc)
+    c2 = sr.make_query(pronoun, me, person, plurality, case_)
 
     # Unify complex terms.
     new_ss, ok = sr.unify(c1, c2, sr.SubstitutionSet())

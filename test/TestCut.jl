@@ -40,10 +40,10 @@ function test_cut()
     sr.add_facts_rules(kb, r1, r2, f1, r3, r4)
 
     #DBKB(kb)
-    goal = sr.make_goal(sr.Atom("test"), X)
+    query = sr.make_query(sr.Atom("test"), X)
     sr.set_max_time(3.0)
 
-    solutions, failure = sr.solve_all(goal, kb, ss)
+    solutions, failure = sr.solve_all(query, kb, ss)
 
     if failure != ""
         println("Test Cut - $failure")
@@ -120,9 +120,9 @@ function test_cut()
     fact6 = sr.Fact(h4)
 
     sr.add_facts_rules(kb, rule1, rule2, rule3, fact6)
-    goal = sr.make_goal(priority_seating, John, X)
+    query = sr.make_query(priority_seating, John, X)
 
-    solutions, failure = sr.solve_all(goal, kb, ss)
+    solutions, failure = sr.solve_all(query, kb, ss)
 
     if failure != ""
         println("Test Cut - $failure")

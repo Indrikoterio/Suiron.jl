@@ -67,8 +67,8 @@ function test_built_in_predicates()
 
     sr.add_facts_rules(kb, r1, r2, r3)  # Add rules to knowledgebase.
 
-    goal = sr.make_goal(bip_test, X, Y)
-    solution, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    query = sr.make_query(bip_test, X, Y)
+    solution, failure = sr.solve(query, kb, sr.SubstitutionSet())
 
     if length(failure) != 0
         println("Test Built-in Predicates - $failure")

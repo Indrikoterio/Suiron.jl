@@ -38,8 +38,8 @@ function test_filter()
     r2 = sr.Rule(list_nerds, exclude)
     sr.add_facts_rules(kb, r1, r2)
 
-    goal, _ = sr.parse_goal("list_wimmin(\$W)")
-    result, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    query, _ = sr.parse_query("list_wimmin(\$W)")
+    result, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if failure != ""
         println("Test Filter - $failure")
     end
@@ -51,8 +51,8 @@ function test_filter()
         println("                   was: $actual")
     end
 
-    goal, _ = sr.parse_goal("list_nerds(\$W)")
-    result, failure = sr.solve(goal, kb, sr.SubstitutionSet())
+    query, _ = sr.parse_query("list_nerds(\$W)")
+    result, failure = sr.solve(query, kb, sr.SubstitutionSet())
     if failure != ""
         println("Test Filter - $failure")
     end

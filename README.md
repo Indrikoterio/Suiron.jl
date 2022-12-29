@@ -70,7 +70,7 @@ The query mother(June, $Child) could be created in Julia as follows:
 mother = Atom("mother")
 June   = Atom("June")
 child  = LogicVar("Child")
-query  = make_goal(mother, June, child)
+query  = make_query(mother, June, child)
 ```
 
 Please refer to [LogicVar.jl](src/LogicVar.jl) and [Goal.jl](src/Goal.jl) for more details.

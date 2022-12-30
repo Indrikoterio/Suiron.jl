@@ -59,7 +59,7 @@ end # parse_query
 # ID number, which is always 0. This is OK, because whenever a rule
 # is fetched from the knowledge base, its variables are recreated,
 # by calling recreate_variables().
-# However, goals are not fetched from the knowledge base. If a goal
+# However, queries are not fetched from the knowledge base. If a query
 # is created, it is necessary to ensure that any logic variables it
 # contains do not have an index of 0.
 function make_logic_variables_unique(terms::Unifiable...)::Vector{Unifiable}

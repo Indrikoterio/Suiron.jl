@@ -60,17 +60,12 @@ function token_branch(the_type::Symbol, children::Vector{Token})::Token
     return t
 end # token_branch
 
-# number_of_children - returns the number of children, if any.
-# Otherwise returns 1.
+# number_of_children - in the given token.
 # Params:  token
 # Return:  number of children
 function number_of_children(ts::Token)::Integer
-    if isnothing(ts.children)
-        return 1
-    end
     return length(ts.children)
 end
-
 
 # to_string - Formats a token for display.
 # This method is useful for diagnostics. Eg.:

@@ -268,7 +268,7 @@ function group_and_tokens(token::Token)::Token
             and_list = Vector{Token}()
         elseif the_type == :GROUP
             t = group_and_tokens(token)
-            t = group_or_tokens(token)
+            t = group_or_tokens(t)
             push!(and_list, t)
         end
 

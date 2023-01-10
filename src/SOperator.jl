@@ -13,26 +13,6 @@ struct SOperator <: Goal
     end
 end
 
-# copy - makes a copy of this operator.
-# Params: operator (array of goals)
-# Return: new operator
-function copy(operator::SOperator)::SOperator
-    t::Symbol = operator.type
-    new_operator = SOperator(t)
-    for g in operator.goals
-        push!(new_operator.goals, g)
-    end
-    return new_operator
-end
-
-# get_operand - gets operand by index.
-# Params: operator (array of goals)
-#         index
-# Return: operand (goal)
-function get_operand(op::SOperator, i::Integer)::Union{Goal, SComplex}
-    return op.goals[i]
-end
-
 # get_head_operand - gets the first operand of the operand list.
 # Params: operator (array of goals)
 # Return: operand (goal)

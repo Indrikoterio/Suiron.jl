@@ -118,9 +118,17 @@ function parse_arguments(str::String)::Tuple{Vector{Unifiable}, String}
         return Array{Unifiable, 1}[], err
     end
 
+    # A comma at the end probably indicates a missing argument,
+    # but... make sure comma is not escaped, because this is valid:
+    # "term1, term2, \,"
     if s[end] == ','
-        err = format_pa_error("Missing last argument", s)
-        return Array{Unifiable, 1}[], err
+        # Length must be longer than 1, because comma
+        # is not the first character.
+        prev = s[end - 1]
+        if prev != '\\'
+            err = format_pa_error("Missing last argument", s)
+            return Array{Unifiable, 1}[], err
+        end
     end
 
     has_digit     = false

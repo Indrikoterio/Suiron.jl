@@ -22,14 +22,14 @@ function test_read_rules()
     end
 
     err = sr.load_kb_from_file(kb, "badrule1.txt")
-    expected = "Error - unmatched bracket: (\nCheck start of file."
+    expected = "Error - unmatched parenthesis: (\nCheck start of file."
     if err != expected
         println("Test Read Rules - Should produce error:\n", expected)
         return
     end
 
     err = sr.load_kb_from_file(kb, "badrule2.txt")
-    expected = "Error - unmatched bracket: )\n" *
+    expected = "Error - unmatched parenthesis: )\n" *
                "Error occurs after: parent(Godwin, Tostig)."
     if err != expected
         println("TestReadRules - Should produce error:\n" + expected)

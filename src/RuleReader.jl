@@ -66,9 +66,9 @@ function unmatched_bracket(str::String,
     msg2 = ""
 
     if round_depth > 0
-        msg = "unmatched bracket: (\n"
+        msg = "unmatched parenthesis: (\n"
     elseif round_depth < 0
-        msg = "unmatched bracket: )\n"
+        msg = "unmatched parenthesis: )\n"
     elseif square_depth > 0
         msg = "unmatched bracket: [\n"
     elseif square_depth < 0

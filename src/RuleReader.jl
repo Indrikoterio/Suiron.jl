@@ -204,7 +204,7 @@ end  # read_facts_and_rules
 function check_end_of_line(line::String, num::Integer)::String
     if length(line) > 0
         last = line[end]
-        if last != '-' && last != ',' &&
+        if last != '-' && last != ',' && last != ';' &&
            last != '.' && last != '='
             return "Check line $num: $line"
         end

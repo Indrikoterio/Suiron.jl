@@ -43,6 +43,12 @@ end
 # Params: solution node
 function set_no_back_tracking(sn::SolutionNode)
     sn.no_back_tracking = true
+    t = typeof(sn)
+    if t == AndSolutionNode || t == OrSolutionNode
+        if sn.head_solution_node != nothing
+            sn.head_solution_node.no_back_tracking = true
+        end
+    end
 end
 
 # get_parent_node

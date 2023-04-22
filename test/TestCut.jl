@@ -138,4 +138,47 @@ function test_cut()
         println("                was: $result2")
     end
 
+    #= Another test:
+
+          get_value($X) :- $X = 1.
+          get_value($X) :- $X = 2.
+          another_test($X) :- get_value($X), !, $X == 2.
+
+       When the inference engine is queried with 'another_test($X)',
+       it should returns no solutions.
+    =#
+
+    get_value    = sr.Atom("get_value")
+    another_test = sr.Atom("another_test")
+    X  = sr.LogicVar("X")
+
+    # get_value($X) :- $X = 1.
+    head1 = sr.SComplex(get_value, X)
+    n1 = sr.SNumber(1)
+    body1 = sr.Unification(X, n1)
+    rule1 = sr.Rule(head1, body1)
+
+    # get_value($X) :- $X = 2.
+    head2 = sr.SComplex(get_value, X)
+    n2 = sr.SNumber(2)
+    body2 = sr.Unification(X, n2)
+    rule2 = sr.Rule(head2, body2)
+
+    # another_test($X) :- get_value($X), !, $X = 2.
+    head3 = sr.SComplex(another_test, X)
+    c = sr.SComplex(get_value, X)
+    uni = sr.Unification(X, n2)
+    body = sr.SOperator(:AND, c, cut, uni)
+    rule3 = sr.Rule(head3, body)
+
+    sr.add_facts_rules(kb, rule1, rule2, rule3)
+    query = sr.make_query(another_test, X)
+
+    solutions, failure = sr.solve_all(query, kb, ss)
+
+    if failure != "No"
+        println("Test Cut - Error: Query should produce no solutions. - $solutions")
+        return
+    end
+
 end  # test_cut

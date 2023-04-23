@@ -16,20 +16,30 @@ function identify_infix(str::String)::Tuple{Symbol, Integer}
     len = length(str)
     prev = '#'  # not space.
 
-    for i = 1:len
+    i = 1
+    while i <= len
+        # Get c1, c2, c3
         c1 = str[i]
+        c2 = '#'
+        if i < len
+            c2 = str[i+1]
+        end
+        c3 = '#'
+        if i < len - 1
+            c3 = str[i+2]
+        end
         if c1 == '"'
             for j = i + 1:len
-                c2 = str[j]
-                if c2 == '"'
+                cx = str[j]
+                if cx == '"'
                     i = j
                     break
                 end
             end
         elseif c1 == '('
             for j = i + 1:len
-                c2 = str[j]
-                if c2 == ')'
+                cx = str[j]
+                if cx == ')'
                     i = j
                     break
                 end
@@ -37,15 +47,13 @@ function identify_infix(str::String)::Tuple{Symbol, Integer}
         else
             # Can't be first or last character.
             # Previous character must be space.
-            if prev != ' ' || i >= (len - 2)
+            if prev != ' ' || i > (len - 2)
                 prev = c1
                 i += 1
                 continue
             end
             if c1 == '<'
-                c2 = str[i+1]
                 if c2 == '='
-                    c3 = str[i+2]
                     if c3 == ' '
                         return :LESS_THAN_OR_EQUAL, i
                     end
@@ -53,9 +61,7 @@ function identify_infix(str::String)::Tuple{Symbol, Integer}
                     return :LESS_THAN, i
                 end
             elseif c1 == '>'
-                c2 = str[i+1]
                 if c2 == '='
-                    c3 = str[i+2]
                     if c3 == ' '
                         return :GREATER_THAN_OR_EQUAL, i
                     end
@@ -63,9 +69,7 @@ function identify_infix(str::String)::Tuple{Symbol, Integer}
                     return :GREATER_THAN, i
                 end
             elseif c1 == '='
-                c2 = str[i+1]
                 if c2 == '='
-                    c3 = str[i+2]
                     if c3 == ' '
                         return :EQUAL, i
                     end
@@ -76,7 +80,7 @@ function identify_infix(str::String)::Tuple{Symbol, Integer}
         end
         prev = c1
         i += 1
-    end # for
+    end # while
 
     return :NONE, -1  # failed to find infix
 
@@ -217,6 +221,7 @@ function parse_subgoal(subgoal::String)::Tuple{Union{Goal, SComplex}, String}
 
     #--------------------------------------
     # Handle infixes: = > < >= <= == =
+
     infix, index = identify_infix(string(s))
     if infix != :NONE
         if infix == :UNIFICATION

@@ -1,7 +1,7 @@
 # Tokenizer.jl - parses Suiron's facts and rules.
 #
 # Cleve Lendon
-# 2022
+# 2023
 
 # letter_number_hyphen - determines whether the given character
 # is a letter, a number, or a hyphen. This excludes punctuation.
@@ -93,17 +93,19 @@ function tokenize(str::String)::Tuple{Vector{Token}, String}
         end
 
         ch = s[i]
-        if ch == '"'   # Ignore characters between quotes.
+        if no_esc(ch, '"', previous)   # Ignore characters between quotes.
             j = i + 1
+            prev = '#'
             while j <= len
                 ch = s[j]
-                if ch == '"'
+                if no_esc(ch, '"', prev)
                     i = j
                     break
                 end
                 j += 1
+                prev = ch
             end
-        elseif ch == '('
+        elseif no_esc(ch, '(', previous)
             # Is the previous character valid in a functor?
             if letter_number_hyphen(previous)
                 push!(stk_parenth, :COMPLEX)
@@ -112,7 +114,7 @@ function tokenize(str::String)::Tuple{Vector{Token}, String}
                 tokens = push!(tokens, token_leaf("("))
                 start_index = i + 1
             end
-        elseif ch == ')'
+        elseif no_esc(ch, ')', previous)
             if top == :NONE
                 err = "tokenize() - Unmatched parenthesis: $s"
                 return tokens, err
@@ -130,9 +132,9 @@ function tokenize(str::String)::Tuple{Vector{Token}, String}
                 err = "tokenize() - Unmatched parenthesis: $s"
                 return tokens, err
             end
-        elseif ch == '['
+        elseif no_esc(ch, '[', previous)
             push!(stk_parenth, :LINKEDLIST)
-        elseif ch == ']'
+        elseif no_esc(ch, ']', previous)
             if top == :NONE
                 err = "tokenize() - Unmatched bracket: $s"
                 return tokens, err
@@ -153,12 +155,12 @@ function tokenize(str::String)::Tuple{Vector{Token}, String}
                     err = "Tokenize() - Invalid character: $s"
                     return tokens, err
                 end
-                if ch == ','   # and
+                if no_esc(ch, ',', previous)   # and
                     subgoal = string(s[start_index: i - 1])
                     tokens = push!(tokens, token_leaf(subgoal))
                     tokens = push!(tokens, token_leaf(","))
                     start_index = i + 1
-                elseif ch == ';'   # or
+                elseif no_esc(ch, ';', previous)   # or
                     subgoal = s[start_index: i -1]
                     tokens = push!(tokens, token_leaf(subgoal))
                     tokens = push!(tokens, token_leaf(";"))
@@ -185,6 +187,24 @@ function tokenize(str::String)::Tuple{Vector{Token}, String}
     return tokens, ""
 
 end # tokenize
+
+# no_esc - Ensures that the character being checked matches the
+# match character, and is not escaped by a backslash. (Eg. \, \[ )
+#
+# Params: character to check
+#         match character
+#         previous character
+# Return: true if not escaped by backslash
+#
+function no_esc(check::Char, match_char::Char, previous::Char)::Bool
+    if previous == '\\'
+        return false
+    end
+    if check != match_char
+        return false
+    end
+    return true
+end # no_esc()
 
 # group_tokens - collects tokens within parentheses into groups.
 # Converts a flat array of tokens into a tree of tokens.

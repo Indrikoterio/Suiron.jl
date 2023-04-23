@@ -1,10 +1,10 @@
 # Tests the 'join' function.
 #
-# 'SJoin' is a built-in function which joins a list of words and
+# 'Join' is a built-in function which joins a list of words and
 # and punctuation to form a single string (= Atom). In the following
 # source example,
 #
-#   $D1 = coffee, $D2 = "," , $D3 = tea, $D4 = or, $D5 = juice, $D6 = "?",
+#   $D1 = coffee, $D2 = "," , $D3 = tea, $D4 = or, $D5 = juice, $D6 = ?,
 #   $X = join($D1, $D2, $D3, $D4, $D5, $D6).
 #
 # $X is bound to the Atom "coffee, tea or juice?".
@@ -15,7 +15,7 @@
 # arguments of a function must be constants or grounded variables.
 # If not, the function fails.
 #
-# Cleve Lendon  2022
+# Cleve Lendon  2023
 
 function test_join()
 
@@ -73,6 +73,33 @@ function test_join()
     if actual != expected
         println("Test Join - expected: $expected")
         println("                 was: $actual")
+    end
+
+    #---------------------------------------------------
+    # New test. Let the parser create a join function.
+
+    # Set up the knowledge base.
+    kb = sr.KnowledgeBase()
+
+    s = "would_you_like($Out) :- $D1 = coffee, $D2 = \\,, \
+         $D3 = tea, $D4 = or, $D5 = juice, $D6 = ?, \
+         $Out = join($D1, $D2, $D3, $D4, $D5, $D6)."
+
+    r, _ = sr.parse_rule(s)
+    sr.add_facts_rules(kb, r)
+    query, _ = sr.parse_query("would_you_like($X)")
+    ss = sr.SubstitutionSet()
+
+    solution, failure = sr.solve(query, kb, ss)
+    if failure != ""
+        println("TestJoin - $failure")
+        return
+    end
+
+    actual = sr.to_string(sr.get_term(results, 2))
+    if actual != expected
+        println("\nTestJoin - Expected: $expected\
+                 \n                Was: $actual")
     end
 
 end  # TestJoin

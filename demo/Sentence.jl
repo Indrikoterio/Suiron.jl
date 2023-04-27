@@ -11,7 +11,7 @@ const MAX_WORDS_IN_SENTENCE = 120
 # Params: character
 # Return: true/false
 function is_apostrophe(ch::Char)::Bool
-    if ch == '\'' || ch == '\u2019' || ch == '\u02bc'
+    if ch == '\'' || ch == '\u02bc'
         return true
     end
     return false

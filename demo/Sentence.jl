@@ -3,7 +3,6 @@
 #
 # Cleve (Klivo) Lendon  2022
 
-const MAX_WORD_LENGTH       = 30
 const MAX_WORDS_IN_SENTENCE = 120
 
 # is_apostrophe - tests whether a character is an apostrophe.
